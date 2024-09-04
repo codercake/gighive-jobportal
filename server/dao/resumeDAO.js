@@ -9,7 +9,7 @@ export default class ResumeDAO {
       return
     }
     try {
-      resume = await conn.db(process.env.JOBLISTINGS_PORTAL_NS).collection("resume")
+      resume = await conn.db(process.env.RESTREVIEWS_NS).collection("resume")
     } catch (e) {
       console.error(`Unable to establish collection handles in userDAO: ${e}`)
     }

@@ -1,28 +1,22 @@
-import app from "./server.js";
-import mongodb from "mongodb";
-import dotenv from "dotenv";
-import JobsDAO from "./dao/JobsDAO.js";
-import ResumeDAO from "./dao/ResumeDAO.js";
+import express from 'express'; 
+import cors from 'cors';
+import mongodb from 'mongodb';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth.route.js';
+import jobRoutes from './routes/jobRoutes.js';
 
-dotenv.config()
-const MongoClient = mongodb.MongoClient
+dotenv.config();
 
-const port = process.env.PORT || 8000
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-MongoClient.connect(
-    process.env.RESTREVIEWS_DB_URI, 
-    {
-        poolSize: 50,
-        wtimeout: 2500,
-        useNewUrlParser: true
-    }
-)
-.catch(err=>{
-    console.error(err.stack)
-        process.exit(1)
-   })
-.then(async client => {
-    app.listen(port, ()=>{
-        console.log(`listening on port ${port}`)
-    })
-})
+// Register routes
+app.use('/api/auth', authRoutes);
+app.use('/api/jobs', jobRoutes);
+
+const port = process.env.PORT || 8001;
+        
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
