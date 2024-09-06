@@ -1,9 +1,10 @@
 import express from 'express';
-import Job from './model/jobSchema.js';  
+import mongoose from 'mongoose';
+import Job from '../model/jobSchema.js';  
 const router = express.Router();
 
 // GET all jobs
-router.get('/jobs', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const jobs = await Job.find();
         res.json(jobs);
@@ -12,8 +13,14 @@ router.get('/jobs', async (req, res) => {
     }
 });
 
+const jobSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    company: String,
+});
+
 // POST a new job
-router.post('/jobs', async (req, res) => {
+router.post('/', async (req, res) => {
     const newJob = new Job(req.body);
     try {
         const savedJob = await newJob.save();
