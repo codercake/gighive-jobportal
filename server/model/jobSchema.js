@@ -28,5 +28,13 @@ const jobSchema = new mongoose.Schema({
 });
 
 const Job = mongoose.model('Job', jobSchema);
+module.exports = Job;
 
+//hashing the password
+jobSchema.pre('save', async function(next){
+    if(this.isModified('password')){
+        this.password = bcrypt.hash(this.password, 8);
+        this.cpassword = bcrypt.hash(this.cpassword, 8);
+    }
+});
 export default Job;
