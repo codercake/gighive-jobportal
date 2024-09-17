@@ -1,24 +1,13 @@
-.App {
-  text-align: center;
-}
+/* General Styles */
 body {
   font-family: Inter, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.job-card {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (max-width: 768px) {
-  .app {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App {
+  text-align: center;
 }
 
 .App-header {
@@ -32,6 +21,11 @@ body {
   color: white;
 }
 
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -42,5 +36,45 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Job Card Styles */
+.job-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.job-card:hover {
+  transform: scale(1.03);
+}
+
+.job-card h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.job-card p {
+  margin: 0.5em 0;
+  color: #333;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .job-list-item {
+    flex-direction: column;
   }
 }
