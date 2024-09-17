@@ -1,22 +1,26 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { NotificationProvider } from './context/NotificationContext';
 import HomePage from './pages/HomePage';
+import JobPage from './pages/JobPage';
+import UserProfilePage from './pages/UserProfilePage';
+import DashboardPage from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
-import JobDetailPage from './pages/JobDetailPage';
-import ProfilePage from './pages/ProfilePage';
-import EmployerProfilePage from './pages/EmployerProfilePage';
 
 const App = () => {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/jobs/:id" element={<JobDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/employer-profile" element={<EmployerProfilePage />} />
-      </Routes>
-    </div>
+    <Router>
+        <NotificationProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/jobs" element={<JobPage />} />
+            <Route path="/jobs/:id" element={<JobPage />} />
+            <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </NotificationProvider>
+    </Router>
   );
 };
 
