@@ -1,6 +1,5 @@
-/* General Styles */
 body {
-  font-family: Inter, sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -39,7 +38,6 @@ body {
   }
 }
 
-/* Job Card Styles */
 .job-card {
   border: 1px solid #ccc;
   border-radius: 8px;
