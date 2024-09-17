@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.RESTREVIEWS_DB_URI, {
@@ -26,13 +25,15 @@ const connectDB = async () => {
 
 connectDB();
 
+// Register Routes
 app.use('/api/v1', jobRoutes); 
 
+// Root route
 app.get('/', (req, res) => {
     res.send('Welcome to the Job Listing Portal!');
 });
 
-const  PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server is running at port no ${PORT}`);
-})
+});

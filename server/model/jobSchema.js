@@ -28,7 +28,6 @@ const jobSchema = new mongoose.Schema({
 });
 
 const Job = mongoose.model('Job', jobSchema);
-module.exports = Job;
 
 //hashing the password
 jobSchema.pre('save', async function(next){
