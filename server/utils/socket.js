@@ -1,10 +1,10 @@
 import { Server } from 'socket.io';
-import { registerUserForNotifications } from '../controllers/notificationController.js';
+import { registerUserForNotifications } from '../controllers/notification.controller.js';
 
 const setupSocket = (server) => {
     const io = new Server(server, {
         cors: {
-            origin: '*',
+            origin: 'http://localhost:3000',
             methods: ['GET', 'POST']
         }
     });
