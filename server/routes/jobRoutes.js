@@ -13,12 +13,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-const jobSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    company: String,
-});
-
 // POST a new job
 router.post('/', async (req, res) => {
     const newJob = new Job(req.body);
