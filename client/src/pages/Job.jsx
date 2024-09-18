@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   padding: 2rem;
   background-color: #f9f9f9;
+  min-height: 100vh;
 `;
 
 const JobPage = () => {
@@ -25,7 +26,6 @@ const JobPage = () => {
   };
 
   const handleEdit = (id) => {
-    //handle job editing
   };
 
   return (

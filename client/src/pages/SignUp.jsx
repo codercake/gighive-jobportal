@@ -1,24 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import signupImage from '../assets/sign-up-image.jpg'; // Import your image here
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebaseConfig';  // Assuming correct path
+import signupImage from '../assets/sign-up-image.jpg';
 
 function SignUp() {
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // Optionally, update user profile with full name
+      navigate('/dashboard');  // Redirect to dashboard or welcome page
+    } catch (error) {
+      console.error("Error signing up with email and password:", error.message);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/dashboard');  // Redirect after sign-up
+    } catch (error) {
+      console.error("Error signing up with Google:", error.message);
+    }
   };
 
   return (
     <div style={styles.wrapper}>
-      {/* Left side: Image */}
       <div style={styles.imageContainer}>
         <img src={signupImage} alt="Signup Visual" style={styles.image} />
       </div>
-
-      {/* Right side: Sign-up Form */}
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Create Account</h2>
         <p style={styles.subHeading}>Find your next opportunity!</p>
-        <button style={styles.googleBtn}>
+        <button style={styles.googleBtn} onClick={handleGoogleSignUp}>
           <img
             src="https://cdn.dribbble.com/users/904380/screenshots/2230701/attachments/415076/google-logo-revised.png"
             alt="Google Logo"
@@ -28,9 +48,31 @@ function SignUp() {
         </button>
         <div style={styles.divider}>or Sign up with Email</div>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="Full Name" required style={styles.input} />
-          <input type="email" placeholder="Email" required style={styles.input} />
-          <input type="password" placeholder="Password" required minLength="8" style={styles.input} />
+          <input
+            type="text"
+            placeholder="Full Name"
+            required
+            style={styles.input}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            style={styles.input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            minLength="8"
+            style={styles.input}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button type="submit" style={styles.signUpBtn}>Sign Up</button>
         </form>
         <div style={styles.terms}>

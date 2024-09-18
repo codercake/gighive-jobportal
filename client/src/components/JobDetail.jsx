@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import jobService from '../services/jobService';
-import Navbar from './Navbar';
+import styled from 'styled-components';
+
+const JobDetailContainer = styled.div`
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text};
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
 
 const JobDetail = () => {
   const { id } = useParams();
@@ -9,8 +21,8 @@ const JobDetail = () => {
 
   useEffect(() => {
     const fetchJob = async () => {
-      const data = await jobService.getJobById(id);
-      setJob(data);
+      const jobData = await jobService.getJobById(id);
+      setJob(jobData);
     };
     fetchJob();
   }, [id]);
@@ -18,16 +30,13 @@ const JobDetail = () => {
   if (!job) return <div>Loading...</div>;
 
   return (
-    <div>
-      <Navbar />
+    <JobDetailContainer>
       <h1>{job.title}</h1>
-      <p>{job.company}</p>
-      <p>{job.description}</p>
-      <p>Qualifications: {job.qualifications}</p>
-      <p>Responsibilities: {job.responsibilities}</p>
-      <p>Salary: {job.salary}</p>
+      <p>Company: {job.company}</p>
+      <p>Description: {job.description}</p>
       <p>Location: {job.location}</p>
-    </div>
+      <p>Salary: {job.salary}</p>
+    </JobDetailContainer>
   );
 };
 

@@ -1,6 +1,19 @@
-import axios from 'axios'; 
+import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL + '/users';
+
+const handleAxiosError = (error) => {
+  if (error.response) {
+    console.error('Error response:', error.response.data);
+    console.error('Error status:', error.response.status);
+    console.error('Error headers:', error.response.headers);
+  } else if (error.request) {
+    console.error('Error request:', error.request);
+  } else {
+    console.error('Error message:', error.message);
+  }
+  return Promise.reject(error.response?.data || 'An error occurred');
+};
 
 const getUserProfile = async () => {
   try {
@@ -17,19 +30,6 @@ const updateUserProfile = async (userData) => {
     return response.data;
   } catch (error) {
     handleAxiosError(error);
-  }
-};
-
-// Define the error handler function
-const handleAxiosError = (error) => {
-  if (error.response) {
-    console.error('Error response:', error.response.data);
-    console.error('Error status:', error.response.status);
-    console.error('Error headers:', error.response.headers);
-  } else if (error.request) {
-    console.error('Error request:', error.request);
-  } else {
-    console.error('Error message:', error.message);
   }
 };
 

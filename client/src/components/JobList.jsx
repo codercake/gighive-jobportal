@@ -1,59 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import jobService from '../services/jobService';
 import JobListItem from './JobListItem';
-import SearchFilter from './SearchFilter';
-import Navbar from './Navbar';
+import styled from 'styled-components';
+
+const JobListContainer = styled.div`
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
-      try {
-        const jobData = await jobService.getAllJobs();
-        if (Array.isArray(jobData)) {
-          setJobs(jobData);
-          setFilteredJobs(jobData);
-        } else {
-          console.error('Unexpected data format:', jobData);
-          setJobs([]);
-          setFilteredJobs([]);
-        }
-      } catch (error) {
-        console.error('Failed to fetch jobs:', error);
-        setJobs([]);
-        setFilteredJobs([]);
-      }
+      const jobData = await jobService.getAllJobs();
+      setJobs(jobData);
     };
-
     fetchJobs();
   }, []);
 
-  const handleFilterChange = (filters) => {
-    const filtered = jobs.filter(job => {
-      return (
-        (filters.location ? job.location.includes(filters.location) : true) &&
-        (filters.salaryRange ? job.salary >= filters.salaryRange.min && job.salary <= filters.salaryRange.max : true)
-      );
-    });
-    setFilteredJobs(filtered);
-  };
-
   return (
-    <div>
-      <Navbar />
-      <SearchFilter onFilterChange={handleFilterChange} />
-      <ul>
-        {filteredJobs && filteredJobs.length > 0 ? (
-          filteredJobs.map(job => (
-            <JobListItem key={job.id} job={job} />
-          ))
-        ) : (
-          <p>No jobs available</p>
-        )}
-      </ul>
-    </div>
+    <JobListContainer>
+      {jobs.map(job => (
+        <JobListItem key={job.id} job={job} />
+      ))}
+    </JobListContainer>
   );
 };
 

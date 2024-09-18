@@ -1,11 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import loginImage from '../assets/login-image.jpg'; 
-import { auth, googleProvider } from '../firebaseConfig';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebaseConfig';  
+import loginImage from '../assets/login-image.jpg';
 
-function Login() {
-  const handleSubmit = (event) => {
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error("Error logging in with email and password:", error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error("Error logging in with Google:", error.message);
+    }
   };
 
   return (
@@ -13,7 +33,7 @@ function Login() {
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Login</h2>
         <p style={styles.subHeading}>Find the job made for you!</p>
-        <button style={styles.googleBtn}>
+        <button style={styles.googleBtn} onClick={handleGoogleSignIn}>
           <img
             src="https://cdn.dribbble.com/users/904380/screenshots/2230701/attachments/415076/google-logo-revised.png"
             alt="Google Logo"
@@ -23,8 +43,22 @@ function Login() {
         </button>
         <div style={styles.divider}>or Login with Email</div>
         <form onSubmit={handleSubmit}>
-          <input type="email" placeholder="Email" required style={styles.input} />
-          <input type="password" placeholder="Password" required style={styles.input} />
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            style={styles.input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            style={styles.input}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button type="submit" style={styles.loginBtn}>Log in</button>
         </form>
         <Link to="/forgot-password" style={styles.forgotLink}>Forgot password?</Link>
@@ -32,14 +66,12 @@ function Login() {
           Not registered? <Link to="/signup" style={styles.link}>Create an Account</Link>
         </div>
       </div>
-
-      {/* Right side: Image */}
       <div style={styles.imageContainer}>
         <img src={loginImage} alt="Login" style={styles.image} />
       </div>
     </div>
   );
-}
+};
 
 const styles = {
   wrapper: {
@@ -55,7 +87,7 @@ const styles = {
     boxSizing: 'border-box',
   },
   heading: {
-    fontSize: '3rem', 
+    fontSize: '3rem',
     marginBottom: '20px',
   },
   subHeading: {
@@ -63,66 +95,68 @@ const styles = {
     marginBottom: '20px',
   },
   googleBtn: {
-    backgroundColor: '#4285F4',
-    color: 'white',
+    backgroundColor: '#db4437',
+    color: '#fff',
+    padding: '10px 20px',
     border: 'none',
-    padding: '15px',
-    fontSize: '1.2rem',
+    borderRadius: '5px',
+    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: '1rem',
     marginBottom: '20px',
-    cursor: 'pointer',
   },
   googleIcon: {
-    width: '30px',
+    width: '24px',
+    height: '24px',
     marginRight: '10px',
   },
   divider: {
-    margin: '20px 0',
-    fontSize: '1.2rem',
     textAlign: 'center',
+    margin: '20px 0',
   },
   input: {
     width: '100%',
-    padding: '15px',
-    margin: '10px 0',
-    fontSize: '1.2rem',
-    boxSizing: 'border-box',
+    padding: '10px',
+    marginBottom: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
   },
   loginBtn: {
     width: '100%',
-    padding: '15px',
-    fontSize: '1.5rem',
-    backgroundColor: 'black',
-    color: 'white',
+    padding: '10px',
+    backgroundColor: '#007bff',
+    color: '#fff',
     border: 'none',
+    borderRadius: '5px',
     cursor: 'pointer',
+    fontSize: '1rem',
   },
   forgotLink: {
     display: 'block',
-    marginTop: '10px',
-    fontSize: '1.2rem',
-    color: '#4285F4',
-    textDecoration: 'none',
+    textAlign: 'center',
+    margin: '10px 0',
   },
   registerLink: {
+    textAlign: 'center',
     marginTop: '20px',
-    fontSize: '1.2rem',
   },
   link: {
-    color: '#4285F4',
+    color: '#007bff',
     textDecoration: 'none',
   },
   imageContainer: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    padding: '20px',
   },
   image: {
-    maxWidth: '100%',
-    height: 'auto',
+    width: '80%',
+    borderRadius: '10px',
   },
 };
 

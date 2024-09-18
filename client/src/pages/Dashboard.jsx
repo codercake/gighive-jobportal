@@ -11,6 +11,7 @@ const Title = styled.h1`
   color: #333;
   font-size: 2rem;
   margin-bottom: 1rem;
+  text-align: center;
 `;
 
 const DashboardPage = () => {
