@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import loginImage from '../assets/login-image.jpg'; // Import your image here
+import loginImage from '../assets/login-image.jpg'; 
+import { auth, googleProvider } from '../firebaseConfig';
 
 function Login() {
   const handleSubmit = (event) => {

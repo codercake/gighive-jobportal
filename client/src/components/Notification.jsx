@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import socket from '../utils/socket';
+import io from 'socket.io-client';
 
-const Notification = () => {
+const socket = io('http://localhost:5000');
+
+const NotificationComponent = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const handleNotification = (message) => {
+    socket.on('notification', (message) => {
+      console.log('Notification received:', message);
       setNotifications(prev => [...prev, message]);
+    });
+
+    return () => {
+      socket.off('notification');
     };
-    
-    socket.on('notification', handleNotification);
-    return () => socket.off('notification', handleNotification);
   }, []);
 
   return (
     <div>
-      {notifications.map((note, index) => (
-        <div key={index}>{note}</div>
-      ))}
+      <h2>Notifications</h2>
+      <ul>
+        {notifications.map((notif, index) => (
+          <li key={index}>{notif}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default Notification;
+export default NotificationComponent;
