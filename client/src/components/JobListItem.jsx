@@ -19,7 +19,7 @@ const JobListItem = ({ job }) => (
   <JobCard>
     <h2>{job.title}</h2>
     <p>{job.company}</p>
-    <Link to={`/jobs/${job.id}`}>View Details</Link>
+    <Link to={`/jobs/${job._id}`}>View Details</Link>
   </JobCard>
 );
 

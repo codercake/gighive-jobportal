@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import jobService from '../services/jobService';
 import JobListItem from './JobListItem';
 import styled from 'styled-components';
+import JobFilter from './JobFilter';
 
 const JobListContainer = styled.div`
   padding: 20px;
@@ -15,17 +16,20 @@ const JobListContainer = styled.div`
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
+  
+  const [filters, setFilters] = useState({ type: '', location: '', salaryRange: '' });
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobData = await jobService.getAllJobs();
+      const jobData = await jobService.getAllJobs(filters); // Pass filters here
       setJobs(jobData);
     };
     fetchJobs();
-  }, []);
+  }, [filters]);
 
   return (
     <JobListContainer>
+      <JobFilter setFilters={setFilters} /> 
       {jobs.map(job => (
         <JobListItem key={job.id} job={job} />
       ))}
