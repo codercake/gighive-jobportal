@@ -51,26 +51,14 @@ export default class JobsDAO {
         }
     }
 
-    // Improved error handling in getJobByID
     static async getJobByID(id) {
         try {
-            const pipeline = [
-                { $match: { _id: new ObjectId(id) } },
-                {
-                    $lookup: {
-                        from: "companies",
-                        localField: "company",
-                        as: "company_details",
-                    },
-                },
-            ];
-            return await jobs.aggregate(pipeline).next();
+            if (!ObjectId.isValid(id)) {
+                throw new Error('Invalid ID format');
+            }
+            return await jobs.findOne({ _id: new ObjectId(id) });
         } catch (e) {
-            const errorMessage =
-                process.env.NODE_ENV === "production"
-                    ? "Error fetching job details."
-                    : `Something went wrong in getJobByID: ${e}`;
-            console.error(errorMessage);
+            console.error(`Something went wrong in getJobByID: ${e}`);
             throw e;
         }
     }
