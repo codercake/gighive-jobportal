@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import JobList from '../components/JobList';
 import styled from 'styled-components';

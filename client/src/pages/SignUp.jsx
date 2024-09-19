@@ -14,8 +14,7 @@ function SignUp() {
     event.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // Optionally, update user profile with full name
-      navigate('/dashboard');  // Redirect to dashboard or welcome page
+      navigate('/dashboard'); 
     } catch (error) {
       console.error("Error signing up with email and password:", error.message);
     }
@@ -24,7 +23,7 @@ function SignUp() {
   const handleGoogleSignUp = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate('/dashboard');  // Redirect after sign-up
+      navigate('/dashboard');  
     } catch (error) {
       console.error("Error signing up with Google:", error.message);
     }
@@ -110,7 +109,7 @@ const styles = {
     boxSizing: 'border-box',
   },
   heading: {
-    fontSize: '3rem', // Larger heading
+    fontSize: '3rem', 
     marginBottom: '20px',
   },
   subHeading: {
