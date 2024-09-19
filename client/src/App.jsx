@@ -4,6 +4,8 @@ import { AuthProvider } from './context/AuthContext';
 import LandingPage from './pages/LandingPage';
 import JobList from './components/JobList';
 import JobDetail from './components/JobDetail';
+import JobForm from './components/JobForm';
+import JobFilter from './components/JobFilter';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
@@ -39,7 +41,6 @@ const App = () => {
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <GlobalStyle />
         <AuthProvider>
-          {/* Wrap Header and Footer around the Routes so they're rendered on every page */}
           <Header />
           <Routes>
             <Route path="/" element={<LandingPage />} />
@@ -48,6 +49,8 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/create-job" element={<JobForm />} /> 
+            <Route path="/jobs/filter" element={<JobFilter />} /> 
           </Routes>
           <Footer />
         </AuthProvider>
