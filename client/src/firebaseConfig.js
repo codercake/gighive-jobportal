@@ -1,35 +1,26 @@
-import { initializeApp } from "firebase/app"; 
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDCRjGdGYouoYopbNeux5OhThWXQljPflI",
-  authDomain: "gighive.firebaseapp.com",
-  projectId: "gighive-job-listing-portal",
-  storageBucket: "gihive-jobsearch-app.appspot.com",
-  messagingSenderId: "461288539169",
-  appId: "1:461288539169:web:6b7542ddf931e9538ecf60",
-  measurementId: "G-WQL0STDBLW"
+  apiKey: "AIzaSyB94f9VF6vXip-I0hwbMnbIGYOkEqX9a_E",
+  authDomain: "gighive-jobportal.firebaseapp.com",
+  projectId: "gighive-jobportal",
+  storageBucket: "gighive-jobportal.appspot.com",
+  messagingSenderId: "100371188056",
+  appId: "1:100371188056:web:e47e05ec58cbb1bc02fd2d",
+  measurementId: "G-0GVVG0J58F"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// Initialize Firebase Authentication and the Google provider
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    console.log('User Info:', user);
-    return user;
-  } catch (error) {
-    console.error("Google sign-in error:", error);
-    throw error;
-  }
-};
-
-export { auth, provider as googleProvider };
+// Export auth and googleProvider
+export { auth, googleProvider };
