@@ -44,7 +44,7 @@ const Navbar = ({ onThemeToggle }) => {
         <Link to="/jobs">Jobs</Link>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/profile">Profile</Link>
-        <button onClick={onThemeToggle}>Toggle Theme</button>
+        <button onClick={onThemeToggle}>Theme</button>
       </NavLinks>
       <BurgerMenu>☰</BurgerMenu>
     </NavbarContainer>

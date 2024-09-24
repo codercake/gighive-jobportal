@@ -7,6 +7,7 @@ import loginImage from '../assets/login-image.jpg';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0); 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -26,6 +27,22 @@ const Login = () => {
     } catch (error) {
       console.error("Error logging in with Google:", error.message);
     }
+  };
+
+  const assessPasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 6) strength += 1; 
+    if (/[A-Z]/.test(password)) strength += 1; 
+    if (/[0-9]/.test(password)) strength += 1; 
+    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+    return strength;
+  };
+
+  const handlePasswordChange = (e) => {
+    const pwd = e.target.value;
+    setPassword(pwd);
+    const strength = assessPasswordStrength(pwd);
+    setPasswordStrength(strength);
   };
 
   return (
@@ -57,8 +74,22 @@ const Login = () => {
             required
             style={styles.input}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange} 
           />
+          
+          <div style={styles.sliderContainer}>
+            <input
+              type="range"
+              min="0"
+              max="4"
+              value={passwordStrength}
+              readOnly
+              style={styles.slider}
+            />
+            <div style={styles.strengthLabel}>
+              {['Weak', 'Fair', 'Good', 'Strong'][passwordStrength]}
+            </div>
+          </div>
           <button type="submit" style={styles.loginBtn}>Log in</button>
         </form>
         <Link to="/forgot-password" style={styles.forgotLink}>Forgot password?</Link>
@@ -122,6 +153,19 @@ const styles = {
     marginBottom: '10px',
     borderRadius: '5px',
     border: '1px solid #ccc',
+  },
+  sliderContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+  slider: {
+    flex: 1,
+    marginRight: '10px',
+  },
+  strengthLabel: {
+    fontSize: '1rem',
+    fontWeight: 'bold',
   },
   loginBtn: {
     width: '100%',
