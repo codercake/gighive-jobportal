@@ -8,6 +8,9 @@ const JobListContainer = styled.div`
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -16,12 +19,11 @@ const JobListContainer = styled.div`
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
-  
-  const [filters, setFilters] = useState({ type: '', location: '', salaryRange: '' });
+  const [filters, setFilters] = useState({ jobType: '', location: '', salaryRange: '' });
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobData = await jobService.getAllJobs(filters); // Pass filters here
+      const jobData = await jobService.getAllJobs(filters); // Ensure jobService handles filters correctly
       setJobs(jobData);
     };
     fetchJobs();
@@ -29,10 +31,14 @@ const JobList = () => {
 
   return (
     <JobListContainer>
-      <JobFilter setFilters={setFilters} /> 
-      {jobs.map(job => (
-        <JobListItem key={job.id} job={job} />
-      ))}
+      <JobFilter onFilter={setFilters} /> 
+      {jobs.length === 0 ? (
+        <p>No jobs found.</p>
+      ) : (
+        jobs.map(job => (
+          <JobListItem key={job._id} job={job} />
+        ))
+      )}
     </JobListContainer>
   );
 };
