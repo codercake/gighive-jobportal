@@ -15,21 +15,29 @@ const handleAxiosError = (error) => {
   return Promise.reject(error.response?.data || 'An error occurred');
 };
 
+const getAuthToken = () => {
+  return localStorage.getItem('token');
+};
+
 const getUserProfile = async () => {
   try {
-    const response = await axios.get(`${API_URL}/profile`);
+    const response = await axios.get(`${API_URL}/profile`, {
+      headers: { Authorization: `Bearer ${getAuthToken()}` }, // Include token in request
+    });
     return response.data;
   } catch (error) {
-    handleAxiosError(error);
+    return handleAxiosError(error); // Return the promise rejection
   }
 };
 
 const updateUserProfile = async (userData) => {
   try {
-    const response = await axios.put(`${API_URL}/profile`, userData);
+    const response = await axios.put(`${API_URL}/profile`, userData, {
+      headers: { Authorization: `Bearer ${getAuthToken()}` }, 
+    });
     return response.data;
   } catch (error) {
-    handleAxiosError(error);
+    return handleAxiosError(error); 
   }
 };
 
