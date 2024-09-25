@@ -17,13 +17,25 @@ const JobListContainer = styled.div`
   }
 `;
 
+const Banner = styled.div`
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.primary};
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
   const [filters, setFilters] = useState({ jobType: '', location: '', salaryRange: '' });
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobData = await jobService.getAllJobs(filters); // Ensure jobService handles filters correctly
+      const jobData = await jobService.getAllJobs(filters); 
       setJobs(jobData);
     };
     fetchJobs();
@@ -31,6 +43,7 @@ const JobList = () => {
 
   return (
     <JobListContainer>
+      <Banner>Find your dream job now!</Banner>
       <JobFilter onFilter={setFilters} /> 
       {jobs.length === 0 ? (
         <p>No jobs found.</p>

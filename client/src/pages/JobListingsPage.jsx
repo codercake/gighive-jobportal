@@ -21,7 +21,6 @@ const Title = styled.h1`
 const JobListingsPage = () => {
   return (
     <PageContainer>
-      <Title>Job Listings</Title>
       <JobList />
     </PageContainer>
   );

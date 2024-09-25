@@ -11,7 +11,6 @@ const Title = styled.h1`
 const DashboardPage = () => {
   return (
     <div>
-      <Title>Dashboard</Title>
       <Dashboard />
     </div>
   );

@@ -8,6 +8,7 @@ import userRoutes from './routes/user.routes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import { authenticateJWT } from './middlewares/authMiddleware.js';
 import setupSocket from './utils/socket.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/auth', authRoutes);
 app.use('/jobs', jobRoutes);
 app.use('/users', userRoutes); 
 app.use('/notifications', authenticateJWT, notificationRoutes); 
+app.use('/applications', authenticateJWT, applicationRoutes);
 
 app.get('/', (req, res) => res.send('Welcome to the Job Listing Portal!'));
 

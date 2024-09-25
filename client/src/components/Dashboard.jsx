@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -25,8 +24,6 @@ const Card = styled.div`
 const Dashboard = () => {
   return (
     <Container>
-      <Navbar />
-      <Title>Dashboard</Title>
       <div className="row">
         <div className="col-md-6 mb-4">
           <Card>

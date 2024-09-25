@@ -30,7 +30,6 @@ const JobForm = ({ isEdit, existingJob }) => {
     } else {
       await jobService.createJob(jobData);
     }
-    // Redirect to job listings or dashboard
   };
 
   return (

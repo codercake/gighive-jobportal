@@ -14,8 +14,6 @@ const LandingPageContainer = styled.div`
 const LandingPage = ({ onThemeToggle }) => (
   <LandingPageContainer>
     <Navbar onThemeToggle={onThemeToggle} />
-    <h1>Welcome to GigHive</h1>
-    <p>Your go-to portal for job opportunities!</p>
   </LandingPageContainer>
 );
 

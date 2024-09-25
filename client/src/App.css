@@ -1,18 +1,36 @@
-body {
-  font-family: 'Inter', sans-serif;
+/* Import Google Fonts - Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* This line imports the Poppins font from Google Fonts with various weights (300, 400, 500, 600, 700) */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: #f5f5f5; 
+  font-family: 'Poppins'; /* New Font - Sets Poppins as the default font */
+}
+
+body {
+  font-family: 'Poppins';
+  margin: 0;
+  padding: 0;
+  background-color: #f0f8ff; /* Light pastel blue */
   color: #333;
 }
 
+/* App Styling */
 .App {
   text-align: center;
+  background-color: #fffaf0; /* Light Ivory for overall contrast */
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #007acc; /* Vibrant Blue */
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -23,13 +41,14 @@ body {
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 40px;
   pointer-events: none;
   animation: App-logo-spin infinite 20s linear;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #ff4500; /* Bright Orange */
+  font-weight: bold;
 }
 
 @keyframes App-logo-spin {
@@ -41,36 +60,63 @@ body {
   }
 }
 
+/* Job Card Styling */
 .job-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  border: 2px solid #00ced1; /* Dark turquoise border */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 6px 12px rgba(0, 128, 128, 0.2); /* Teal shadow for depth */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  background-color: #fafafa; /* Soft white background */
 }
 
 .job-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  background-color: #e6f7ff; /* Light sky blue hover effect */
 }
 
 .job-card h2 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.6em;
+  color: #007acc; /* Matches header blue */
 }
 
 .job-card p {
   margin: 0.5em 0;
-  color: #333;
+  color: #444;
 }
 
+/* Footer Styling */
 .footer {
-  background-color: #282c34;
+  background-color: #333;
   color: white;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
+  font-size: 1rem;
+  letter-spacing: 1.5px;
 }
 
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 80px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d3d3d3; /* Light grey scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #007acc; /* Vibrant Blue for the thumb */
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #005999; /* Darker blue on hover */
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   body {
     font-size: 14px;
@@ -85,7 +131,6 @@ body {
     flex-direction: column;
     align-items: center;
   }
-
   .job-list-item {
     flex-direction: column;
   }
