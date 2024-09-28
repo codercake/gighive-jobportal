@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from '../components/Dashboard';
+import Dashboard from '../components/Dashboard/Dashboard.jsx';
 import styled from 'styled-components';
 
 const Title = styled.h1`
@@ -11,6 +11,7 @@ const Title = styled.h1`
 const DashboardPage = () => {
   return (
     <div>
+      <Title>Dashboard</Title>
       <Dashboard />
     </div>
   );

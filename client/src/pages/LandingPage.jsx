@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Header/Navbar';
 import styled from 'styled-components';
 
 const LandingPageContainer = styled.div`
