@@ -19,29 +19,35 @@ const getAuthToken = () => {
   return localStorage.getItem('token');
 };
 
-const getUserProfile = async () => {
+export const getUserProfile = async () => {
   try {
     const response = await axios.get(`${API_URL}/profile`, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }, // Include token in request
+      headers: { Authorization: `Bearer ${getAuthToken()}` },
     });
     return response.data;
   } catch (error) {
-    return handleAxiosError(error); // Return the promise rejection
+    return handleAxiosError(error);
   }
 };
 
-const updateUserProfile = async (userData) => {
+export const updateUserProfile = async (userData) => {
   try {
     const response = await axios.put(`${API_URL}/profile`, userData, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }, 
+      headers: { Authorization: `Bearer ${getAuthToken()}` },
     });
     return response.data;
   } catch (error) {
-    return handleAxiosError(error); 
+    return handleAxiosError(error);
   }
 };
 
-export default {
-  getUserProfile,
-  updateUserProfile,
+export const getUserApplications = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/applications`, {
+      headers: { Authorization: `Bearer ${getAuthToken()}` },
+    });
+    return response.data;
+  } catch (error) {
+    return handleAxiosError(error);
+  }
 };

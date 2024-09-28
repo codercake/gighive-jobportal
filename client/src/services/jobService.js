@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + '/jobs';
+const API_URL = `${process.env.REACT_APP_API_URL}/jobs`; // Ensure API_URL is correctly formed
 
 const getAllJobs = async () => {
   try {
