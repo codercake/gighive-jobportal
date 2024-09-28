@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import JobList from '../components/JobList';
+import JobList from '../components/Jobs/JobList';
 import jobService from '../services/jobService';
 import styled from 'styled-components';
 

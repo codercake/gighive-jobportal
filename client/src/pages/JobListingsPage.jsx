@@ -1,5 +1,5 @@
 import React from 'react';
-import JobList from '../components/JobList';
+import JobList from '../components/Jobs/JobList';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
