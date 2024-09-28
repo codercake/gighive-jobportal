@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebaseConfig';
-import signupImage from '../assets/sign-up-image.jpg'; // Adjust the path if needed
-import googleLogo from '../assets/google-logo.jpg'; // Adjust the path if needed
-
+import signupImage from '../assets/sign-up-image.jpg'; 
+import googleLogo from '../assets/google-logo.jpg'; 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

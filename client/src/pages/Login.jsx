@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebaseConfig';  
-import loginImage from '../assets/login-image.jpg';  // Assuming correct path
-import googleLogo from '../assets/google-logo.jpg';  // Assuming correct path
-import linkedinLogo from '../assets/linkedin.png';  // Assuming correct path
+import loginImage from '../assets/login-image.jpg';  
+import googleLogo from '../assets/google-logo.jpg'; 
+import linkedinLogo from '../assets/linkedin.png';  
 
 const Login = () => {
   const [email, setEmail] = useState('');
