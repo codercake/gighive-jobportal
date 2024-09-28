@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
+    "@react-spring/web": "^9.7.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -13,6 +14,7 @@
     "browserify-zlib": "^0.2.0",
     "chart.js": "^4.4.4",
     "firebase": "^10.13.2",
+    "framer-motion": "^11.9.0",
     "gsap": "^3.12.5",
     "https-browserify": "^1.0.0",
     "react": "^18.3.1",
@@ -21,6 +23,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
+    "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.2",
@@ -30,6 +33,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "styled-components": "^6.1.13",
+    "styled-icons": "^10.47.1",
     "url": "^0.11.4",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4"
@@ -37,7 +41,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test"
+    "test": "react-app-rewired test",
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [
@@ -56,5 +61,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
