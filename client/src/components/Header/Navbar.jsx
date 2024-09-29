@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavbarContainer = styled.nav`
-  background-color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.background || '#ffffff'};
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -14,7 +14,7 @@ const NavbarContainer = styled.nav`
 `;
 
 const Logo = styled.h1`
-  color: ${({ theme }) => theme.title};
+  color: ${({ theme }) => theme.title || '#000'};
   font-size: 1.5rem;
 `;
 
@@ -29,15 +29,20 @@ const NavLinks = styled.div`
 
 const BurgerMenu = styled.div`
   display: none;
-  
+
   @media (max-width: 768px) {
     display: block;
     cursor: pointer;
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px; /* Add some space between the buttons */
+`;
+
 const Button = styled(Link)`
-  background-color: #ff6f61;
+  background-color: #d1c4e9; /* Light purple */
   color: white;
   padding: 10px 20px;
   border-radius: 25px;
@@ -45,7 +50,7 @@ const Button = styled(Link)`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #ff5a4d;
+    background-color: #b39ddb; /* Darker light purple */
   }
 
   @media (max-width: 768px) {
@@ -54,7 +59,7 @@ const Button = styled(Link)`
 `;
 
 const CircularButton = styled(Link)`
-  background-color: #ff6f61;
+  background-color: #d1c4e9; /* Light purple */
   color: white;
   width: 40px;
   height: 40px;
@@ -67,7 +72,7 @@ const CircularButton = styled(Link)`
   margin-left: 10px;
 
   &:hover {
-    background-color: #ff5a4d;
+    background-color: #b39ddb; /* Darker light purple */
   }
 
   @media (max-width: 768px) {
@@ -75,20 +80,29 @@ const CircularButton = styled(Link)`
   }
 `;
 
-const Navbar = ({ onThemeToggle }) => {
+const StyledLink = styled(Link)`
+  color: #000; /* Default link color */
+  text-decoration: none; /* Remove underline */
+  
+  &:hover {
+    text-decoration: underline; /* Optional: underline on hover */
+  }
+`;
+
+const Navbar = ({ toggleSidebar }) => {
   return (
     <NavbarContainer>
       <Link to="/"><Logo>GigHive</Logo></Link>
       <NavLinks>
-        <Link to="/jobs">Jobs</Link>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/profile">Profile</Link>
+        <StyledLink to="/jobs">Jobs</StyledLink>
+        <StyledLink to="/dashboard">Dashboard</StyledLink>
+        <StyledLink to="/profile">Profile</StyledLink>
       </NavLinks>
-      <div>
-        <CircularButton to="/login">L</CircularButton>
-        <Button to="/signup">Signup</Button>
-      </div>
-      <BurgerMenu>☰</BurgerMenu>
+      <ButtonContainer>
+        <CircularButton to="/login">Login</CircularButton>
+        <Button to="/signup">Begin your Journey</Button>
+      </ButtonContainer>
+      <BurgerMenu onClick={toggleSidebar}>☰</BurgerMenu>
     </NavbarContainer>
   );
 };

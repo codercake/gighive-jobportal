@@ -1,6 +1,10 @@
-import React from 'react';
+import React from 'react'; 
 import styled from 'styled-components';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+
+import paymentIcon1 from '../../assets/payment1.png'; 
+import paymentIcon2 from '../../assets/payment2.png';
+import paymentIcon3 from '../../assets/payment3.png';
 
 const FooterWrapper = styled.footer`
   background-color: #1e0b36; /* Dark purple background */
@@ -66,7 +70,7 @@ const SocialIcons = styled.div`
   a {
     color: #fff;
     margin-right: 1rem;
-    font-size: 1.5rem;
+    font-size: 2rem; /* Increased size for social media icons */
     transition: color 0.3s;
 
     &:hover {
@@ -78,6 +82,7 @@ const SocialIcons = styled.div`
 const PaymentIcons = styled.div`
   display: flex;
   margin-top: 1rem;
+
   img {
     margin-right: 1rem;
     height: 40px; /* Adjust the height as needed */
@@ -135,23 +140,25 @@ const Footer = () => {
       </FooterColumn>
 
       <PaymentIcons>
-        <img src="path_to_payment_icon1.png" alt="Payment Method 1" />
-        <img src="path_to_payment_icon2.png" alt="Payment Method 2" />
-        <img src="path_to_payment_icon3.png" alt="Payment Method 3" />
+        <img src={paymentIcon1} alt="Payment Method 1" />
+        <img src={paymentIcon2} alt="Payment Method 2" />
+        <img src={paymentIcon3} alt="Payment Method 3" />
       </PaymentIcons>
 
-      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-  <FaFacebookF />
-</a>
-<a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-  <FaInstagram />
-</a>
-<a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-  <FaTwitter />
-</a>
-<a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-  <FaYoutube />
-</a>
+      <SocialIcons>
+        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+          <FaFacebookF />
+        </a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <FaInstagram />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <FaTwitter />
+        </a>
+        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+          <FaYoutube />
+        </a>
+      </SocialIcons>
 
       <Copyright>
         &copy; 2024 GigHive. All Rights Reserved.

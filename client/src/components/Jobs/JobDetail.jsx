@@ -1,159 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; 
 import jobService from '../../services/jobService';
-import styled, { keyframes } from 'styled-components';
-
-// Keyframe animations for subtle effects
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const bounceIn = keyframes`
-  0% {
-    transform: scale(0.9);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-// Container with fade-in effect
-const JobDetailContainer = styled.div`
-  padding: 30px;
-  max-width: 900px;
-  margin: 50px auto;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  animation: ${fadeIn} 0.7s ease;
-  
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
-`;
-
-const JobDetailHeader = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 25px;
-  color: ${({ theme }) => theme.primary};
-  text-align: center;
-  animation: ${bounceIn} 0.6s ease;
-  
-  @media (max-width: 768px) {
-    font-size: 1.8rem;
-  }
-`;
-
-// Section Layout
-const JobSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 25px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const CompanyInfo = styled.div`
-  width: 65%;
-  font-size: 1rem;
-  color: #444;
-  
-  & p {
-    margin: 10px 0;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const ApplyButton = styled.button`
-  padding: 15px 25px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease;
-  animation: ${fadeIn} 1s ease;
-
-  &:hover {
-    background-color: #218838;
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    margin-top: 20px;
-    width: 100%;
-  }
-`;
-
-const Description = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  color: #555;
-  line-height: 1.6;
-`;
-
-// Animated box for eligibility criteria
-const EligibilityCriteria = styled.div`
-  margin: 30px 0;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-left: 4px solid #28a745;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  animation: ${fadeIn} 1s ease;
-
-  h3 {
-    color: ${({ theme }) => theme.primary};
-    margin-bottom: 15px;
-  }
-
-  p {
-    color: #666;
-    line-height: 1.5;
-  }
-`;
-
-const ResumeUploadLabel = styled.label`
-  display: block;
-  margin: 20px 0 10px;
-  font-size: 1.1rem;
-  color: #444;
-  font-weight: bold;
-`;
-
-const ResumeUpload = styled.input`
-  display: block;
-  padding: 12px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-`;
+import styled from 'styled-components';
 
 const JobDetail = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -163,42 +16,78 @@ const JobDetail = () => {
     fetchJob();
   }, [id]);
 
-  const handleResumeUpload = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      // Handle resume upload
-      console.log("Resume uploaded: ", file.name);
-    } else {
-      alert("Please upload a valid PDF file.");
-    }
-  };
+  const handleApplyClick = () => {
+    navigate(`/jobs/${id}/apply`);  
+  }; 
 
   if (!job) return <div>Loading...</div>;
 
   return (
     <JobDetailContainer>
       <JobDetailHeader>{job.title}</JobDetailHeader>
-      
+
       <JobSection>
         <CompanyInfo>
           <p><strong>Company:</strong> {job.company}</p>
           <p><strong>Location:</strong> {job.location}</p>
           <p><strong>Salary:</strong> {job.salary}</p>
         </CompanyInfo>
-        <ApplyButton>Apply Now</ApplyButton>
+        <ApplyButton onClick={handleApplyClick}>Apply Now</ApplyButton> 
       </JobSection>
-      
+
       <Description>{job.description}</Description>
-
-      <EligibilityCriteria>
-        <h3>Eligibility Criteria</h3>
-        <p>{job.eligibilityCriteria}</p>
-      </EligibilityCriteria>
-
-      <ResumeUploadLabel>Upload Resume (PDF only):</ResumeUploadLabel>
-      <ResumeUpload type="file" accept=".pdf" onChange={handleResumeUpload} />
     </JobDetailContainer>
   );
 };
+
+const JobDetailContainer = styled.div`
+  padding: 30px; /* Increased padding */
+  max-width: 1000px; /* Increased width for more content space */
+  margin: 0 auto;
+`;
+
+const JobDetailHeader = styled.h1`
+  font-size: 3rem; /* Increased font size */
+  font-weight: bold; /* Make header more prominent */
+  margin-bottom: 30px; /* Increased margin */
+`;
+
+const JobSection = styled.div`
+  margin-bottom: 30px; /* Increased margin for better spacing */
+`;
+
+const CompanyInfo = styled.div`
+  font-size: 1.5rem; /* Increased font size for company info */
+  line-height: 1.8; /* Increased line height for better readability */
+  margin-bottom: 15px; /* Slightly increased margin */
+`;
+
+const ApplyButton = styled.button`
+  padding: 15px 30px; /* Increased padding for a larger button */
+  background-color: #4b0082; /* Dark purple */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.25rem; /* Larger font size for button */
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effect */
+  
+  &:hover {
+    background-color: #5a00a3; /* Lighter shade of purple on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+  }
+
+  &:active {
+    background-color: #3e0066; /* Darker purple when active */
+    transform: scale(0.98); /* Button shrinks slightly when clicked */
+  }
+`;
+
+const Description = styled.p`
+  font-size: 1.5rem; /* Increased font size for description */
+  line-height: 1.75; /* Better line height for readability */
+  margin-top: 20px;
+`;
 
 export default JobDetail;

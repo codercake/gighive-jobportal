@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebaseConfig';
-import signupImage from '../assets/sign-up-image.jpg'; 
-import googleLogo from '../assets/google-logo.jpg'; 
-function SignUp() {
+import signupImage from '../assets/sign-up-image.webp'; 
+import googleLogo from '../assets/google-logo.jpg';
+
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -32,63 +33,23 @@ function SignUp() {
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f0f0f0',
-        padding: '20px',
-      }}>
-        <img src={signupImage} alt="Signup Visual" style={{
-          width: '70%',
-          borderRadius: '50%',
-        }} />
+      <div style={imageContainerStyle}>
+        <img src={signupImage} alt="Signup Visual" style={imageStyle} loading="lazy" />
       </div>
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: '50px',
-        boxSizing: 'border-box',
-        borderRadius: '20px',
-      }}>
-        <h2 style={{ fontSize: '3rem', marginBottom: '20px' }}>Create Account</h2>
-        <p style={{ fontSize: '1.5rem', marginBottom: '20px' }}>Find your next opportunity!</p>
-        <button style={{
-          backgroundColor: '#000',
-          color: '#fff',
-          padding: '10px 20px',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1rem',
-          marginBottom: '20px',
-        }} onClick={handleGoogleSignUp}>
-          <img src={googleLogo} alt="Google Logo" style={{
-            width: '35px',
-            height: 'auto',
-            marginRight: '10px',
-          }} />
+      <div style={formContainerStyle}>
+        <h2 style={headingStyle}>Create Account</h2>
+        <p style={subHeadingStyle}>Find your next opportunity!</p>
+        <button style={oauthBtnStyle} onClick={handleGoogleSignUp}>
+          <img src={googleLogo} alt="Google Logo" style={oauthIconStyle} />
           Sign up with Google
         </button>
-        <div style={{ textAlign: 'center', margin: '20px 0' }}>or Sign up with Email</div>
+        <div style={dividerStyle}>or Sign up with Email</div>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Full Name"
             required
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
+            style={inputStyle}
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />
@@ -96,13 +57,7 @@ function SignUp() {
             type="email"
             placeholder="Email"
             required
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
+            style={inputStyle}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -110,74 +65,107 @@ function SignUp() {
             type="password"
             placeholder="Password"
             required
-            minLength="8"
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
+            style={inputStyle}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>Work status</label>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div
-                onClick={() => setWorkStatus('experienced')}
-                style={{
-                  flex: 1,
-                  padding: '15px',
-                  border: '1px solid #ddd',
-                  borderRadius: '10px',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  marginRight: '10px',
-                  borderColor: workStatus === 'experienced' ? '#007bff' : '#ddd',
-                }}
-              >
-                <span style={{ fontWeight: 'bold' }}>I'm experienced</span>
-                <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                  I have work experience (excluding internships)
-                </p>
-              </div>
-              <div
-                onClick={() => setWorkStatus('fresher')}
-                style={{
-                  flex: 1,
-                  padding: '15px',
-                  border: '1px solid #ddd',
-                  borderRadius: '10px',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  borderColor: workStatus === 'fresher' ? '#007bff' : '#ddd',
-                }}
-              >
-                <span style={{ fontWeight: 'bold' }}>I'm a fresher</span>
-                <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                  I am a student/ Haven't worked after graduation
-                </p>
-              </div>
-            </div>
-          </div>
-          <button type="submit" style={{
-            width: '100%',
-            padding: '15px',
-            fontSize: '1.2rem',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-          }}>Sign Up</button>
+          <button type="submit" style={signUpBtnStyle}>Create Account</button>
         </form>
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          Already have an account? <Link to="/login" style={{ color: '#007bff', textDecoration: 'none' }}>Log in</Link>
+        <div style={loginLinkStyle}>
+          Already have an account? <Link to="/login" style={linkStyle}>Log In</Link>
         </div>
       </div>
     </div>
   );
-}
+};
+
+const imageContainerStyle = {
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#f0f0f0',
+};
+
+const imageStyle = {
+  width: '300px',
+  height: '300px',
+  borderRadius: '50%',
+  objectFit: 'cover',
+};
+
+const formContainerStyle = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: '50px',
+  boxSizing: 'border-box',
+};
+
+const headingStyle = {
+  fontSize: '3rem',
+  marginBottom: '20px',
+};
+
+const subHeadingStyle = {
+  fontSize: '1.5rem',
+  marginBottom: '20px',
+};
+
+const oauthBtnStyle = {
+  backgroundColor: '#000',
+  color: '#fff',
+  padding: '10px 20px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '1rem',
+  marginBottom: '20px',
+};
+
+const oauthIconStyle = {
+  width: '35px',
+  height: '35px',
+  marginRight: '10px',
+  borderRadius: '50%',
+  objectFit: 'cover',
+};
+
+const dividerStyle = {
+  textAlign: 'center',
+  margin: '20px 0',
+};
+
+const inputStyle = {
+  width: '100%',
+  padding: '10px',
+  marginBottom: '10px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+};
+
+const signUpBtnStyle = {
+  width: '100%',
+  padding: '15px',
+  fontSize: '1.5rem',
+  backgroundColor: 'black',
+  color: 'white',
+  border: 'none',
+  cursor: 'pointer',
+};
+
+const loginLinkStyle = {
+  textAlign: 'center',
+  marginTop: '20px',
+};
+
+const linkStyle = {
+  color: '#007bff',
+  textDecoration: 'none',
+};
 
 export default SignUp;

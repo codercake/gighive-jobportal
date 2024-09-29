@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '../firebaseConfig';  
-import loginImage from '../assets/login-image.jpg';  
-import googleLogo from '../assets/google-logo.jpg'; 
-import linkedinLogo from '../assets/linkedin.png';  
+import { auth, googleProvider } from '../firebaseConfig';
+import loginImage from '../assets/login-image.webp';
+import googleLogo from '../assets/google-logo.jpg';
+import linkedinLogo from '../assets/linkedin.png'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordStrength, setPasswordStrength] = useState(0); 
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -41,22 +41,14 @@ const Login = () => {
   };
 
   const handleLinkedInSignIn = async () => {
-    // LinkedIn OAuth logic should be implemented here
-    try {
-      // Assuming LinkedIn sign-in logic
-      // await signInWithPopup(auth, linkedinProvider);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error("Error logging in with LinkedIn:", error.message);
-      alert('Error logging in with LinkedIn. Please try again later.');
-    }
+    window.open(`${process.env.REACT_APP_API_URL}/auth/linkedin`, '_self');
   };
 
   const assessPasswordStrength = (password) => {
     let strength = 0;
-    if (password.length >= 6) strength += 1; 
-    if (/[A-Z]/.test(password)) strength += 1; 
-    if (/[0-9]/.test(password)) strength += 1; 
+    if (password.length >= 6) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
     if (/[^A-Za-z0-9]/.test(password)) strength += 1;
     return strength;
   };
@@ -74,23 +66,12 @@ const Login = () => {
         <h2 style={headingStyle}>Login</h2>
         <p style={subHeadingStyle}>Find the job made for you!</p>
         
-        {/* Google Login */}
         <button style={oauthBtnStyle} onClick={handleGoogleSignIn}>
-          <img
-            src={googleLogo}
-            alt="Google Logo"
-            style={oauthIconStyle}
-          />
+          <img src={googleLogo} alt="Google Logo" style={oauthIconStyle} />
           Log in with Google
         </button>
-        
-        {/* LinkedIn Login */}
         <button style={oauthBtnStyle} onClick={handleLinkedInSignIn}>
-          <img
-            src={linkedinLogo}
-            alt="LinkedIn Logo"
-            style={oauthIconStyle}
-          />
+          <img src={linkedinLogo} alt="LinkedIn Logo" style={oauthIconStyle} />
           Log in with LinkedIn
         </button>
         
@@ -110,7 +91,7 @@ const Login = () => {
             required
             style={inputStyle}
             value={password}
-            onChange={handlePasswordChange} 
+            onChange={handlePasswordChange}
           />
           
           <div style={sliderContainerStyle}>
@@ -140,7 +121,6 @@ const Login = () => {
   );
 };
 
-// Styles defined outside JSX for readability
 const wrapperStyle = {
   display: 'flex',
   height: '100vh',
@@ -153,7 +133,7 @@ const formContainerStyle = {
   justifyContent: 'center',
   padding: '50px',
   boxSizing: 'border-box',
-  borderRadius: '20px', // Circular edges for the form container
+  borderRadius: '20px',
 };
 
 const headingStyle = {
@@ -167,7 +147,7 @@ const subHeadingStyle = {
 };
 
 const oauthBtnStyle = {
-  backgroundColor: '#000',  
+  backgroundColor: '#000',
   color: '#fff',
   padding: '10px 20px',
   border: 'none',
@@ -181,8 +161,8 @@ const oauthBtnStyle = {
 };
 
 const oauthIconStyle = {
-  width: '35px', 
-  height: 'auto', 
+  width: '35px',
+  height: 'auto',
   marginRight: '10px',
 };
 
@@ -251,8 +231,10 @@ const imageContainerStyle = {
 };
 
 const imageStyle = {
-  width: '70%', 
-  borderRadius: '50%', // Circular edges for the image
+  width: '70%',
+  height: 'auto',
+  borderRadius: '50%',
+  objectFit: 'cover',
 };
 
 export default Login;

@@ -1,0 +1,10 @@
+# ensures unecessary files and version control files don't get copied into the Docker image, which helps in reducing the image size and avoiding conflicts. 
+node_modules
+Dockerfile
+.git
+.gitignore
+logs
+*.logs
+
+#environment tables for your application, including database credentials and API keys
+.env 

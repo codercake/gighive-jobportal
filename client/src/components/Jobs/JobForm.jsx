@@ -3,46 +3,154 @@ import jobService from '../../services/jobService';
 import styled from 'styled-components';
 
 const JobFormContainer = styled.div`
-  padding: 20px;
-  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  max-width: 900px; 
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
+  background-color: #f2e6ff; 
+  color: #333; 
+  border-radius: 8px; 
 `;
 
-const JobForm = ({ isEdit, existingJob }) => {
-  const [jobData, setJobData] = useState({
-    title: existingJob?.title || '',
-    company: existingJob?.company || '',
-    description: existingJob?.description || '',
-    location: existingJob?.location || '',
-    salary: existingJob?.salary || '',
+const Title = styled.h1`
+  margin-bottom: 20px; 
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column; 
+  width: 100%; 
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 15px; 
+`;
+
+const FormLabel = styled.label`
+  font-weight: bold; 
+`;
+
+const FormInput = styled.input`
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  background-color: #e6ccff; 
+`;
+
+const ColorfulFileInput = styled.input`
+  padding: 10px;
+  width: 100%;
+  border: none; 
+  border-radius: 4px; 
+  background: linear-gradient(135deg, #6a5acd, #836fff);
+  color: white;
+  cursor: pointer;
+`;
+
+const SubmitButton = styled.button`
+  padding: 15px 25px; 
+  background-color: #6a5acd; 
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 auto; 
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #836fff; 
+  }
+`;
+
+const JobForm = ({ companyName }) => {
+  const [applicationData, setApplicationData] = useState({
+    name: '',
+    email: '',
+    resume: null,
+    qualification: '', 
   });
 
   const handleChange = (e) => {
-    setJobData({ ...jobData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setApplicationData({ ...applicationData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setApplicationData({ ...applicationData, resume: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isEdit) {
-      await jobService.updateJob(existingJob.id, jobData);
-    } else {
-      await jobService.createJob(jobData);
+    if (applicationData.resume && applicationData.resume.type !== "application/pdf") {
+      alert('Please upload your resume in PDF format only.'); 
+      return; 
     }
+
+    const formData = new FormData();
+    formData.append('name', applicationData.name);
+    formData.append('email', applicationData.email);
+    formData.append('resume', applicationData.resume);
+    formData.append('qualification', applicationData.qualification); 
+
+    await jobService.applyForJob(formData);
+    alert('Application submitted successfully!'); 
   };
 
   return (
     <JobFormContainer>
-      <h1>{isEdit ? 'Edit Job Listing' : 'Create Job Listing'}</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="Job Title" value={jobData.title} onChange={handleChange} required />
-        <input type="text" name="company" placeholder="Company" value={jobData.company} onChange={handleChange} required />
-        <textarea name="description" placeholder="Description" value={jobData.description} onChange={handleChange} required />
-        <input type="text" name="location" placeholder="Location" value={jobData.location} onChange={handleChange} required />
-        <input type="text" name="salary" placeholder="Salary" value={jobData.salary} onChange={handleChange} required />
-        <button type="submit">{isEdit ? 'Update Job' : 'Create Job'}</button>
-      </form>
+      <Title>Applying for {companyName}</Title>
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <FormLabel>Your Name:</FormLabel>
+          <FormInput 
+            type="text" 
+            name="name" 
+            placeholder="Your Name" 
+            value={applicationData.name} 
+            onChange={handleChange} 
+            required 
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel>Your Email:</FormLabel>
+          <FormInput 
+            type="email" 
+            name="email" 
+            placeholder="Your Email" 
+            value={applicationData.email} 
+            onChange={handleChange} 
+            required 
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel>Highest Qualification:</FormLabel>
+          <FormInput 
+            type="text" 
+            name="qualification" 
+            placeholder="Your Highest Qualification" 
+            value={applicationData.qualification} 
+            onChange={handleChange} 
+            required 
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel>Upload Resume (PDF only):</FormLabel>
+          <ColorfulFileInput 
+            type="file" 
+            accept=".pdf" 
+            onChange={handleFileChange} 
+            required 
+          />
+        </FormGroup>
+        <FormGroup>
+          <SubmitButton type="submit">Submit Application</SubmitButton>
+        </FormGroup>
+      </Form>
     </JobFormContainer>
   );
 };

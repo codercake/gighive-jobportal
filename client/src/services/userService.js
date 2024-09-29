@@ -42,12 +42,15 @@ export const updateUserProfile = async (userData) => {
 };
 
 export const getUserApplications = async () => {
+  const token = localStorage.getItem('token'); 
+
   try {
-    const response = await axios.get(`${API_URL}/applications`, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` },
-    });
-    return response.data;
+      const response = await axios.get('http://localhost:5000/users/applications', {
+          headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data; 
   } catch (error) {
-    return handleAxiosError(error);
+      console.error('Error fetching applications:', error);
+      return handleAxiosError(error);
   }
 };

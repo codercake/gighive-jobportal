@@ -12,25 +12,25 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins'; /* New Font - Sets Poppins as the default font */
+  font-family: 'Poppins', sans-serif; /* Sets Poppins as the default font */
 }
 
 body {
-  font-family: 'Poppins';
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f8ff; /* Light pastel blue */
+  background-color: #ffffff; /* Changed to white for a clean background */
   color: #333;
 }
 
 /* App Styling */
 .App {
   text-align: center;
-  background-color: #fffaf0; /* Light Ivory for overall contrast */
+  background-color: #f9f9f9; /* Light gray for overall contrast instead of lavender */
 }
 
 .App-header {
-  background-color: #007acc; /* Vibrant Blue */
+  background-color: #7b1fa2; /* Dark purple */
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -38,6 +38,7 @@ body {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px; /* Added padding for better spacing */
 }
 
 .App-logo {
@@ -47,7 +48,7 @@ body {
 }
 
 .App-link {
-  color: #ff4500; /* Bright Orange */
+  color: #ab47bc; /* Lighter purple */
   font-weight: bold;
 }
 
@@ -61,25 +62,34 @@ body {
 }
 
 /* Job Card Styling */
+.job-listing {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap */
+  justify-content: space-between; /* Space out cards */
+  margin: 20px; /* Margin around the listing container */
+}
+
 .job-card {
-  border: 2px solid #00ced1; /* Dark turquoise border */
+  border: 2px solid #9c27b0; /* Darker purple border */
   border-radius: 10px;
   padding: 20px;
-  margin: 20px 0;
-  box-shadow: 0 6px 12px rgba(0, 128, 128, 0.2); /* Teal shadow for depth */
+  margin: 10px; /* Margin between cards */
+  box-shadow: 0 6px 12px rgba(156, 39, 176, 0.2); /* Purple shadow for depth */
   transition: transform 0.3s ease, background-color 0.3s ease;
-  background-color: #fafafa; /* Soft white background */
+  background-color: #f1f8e9; /* Soft light background for job cards */
+  flex: 1 1 calc(30% - 20px); /* 3 cards per row, with space */
+  max-width: 300px; /* Limit width */
 }
 
 .job-card:hover {
   transform: scale(1.05);
-  background-color: #e6f7ff; /* Light sky blue hover effect */
+  background-color: #e1bee7; /* Light lavender hover effect */
 }
 
 .job-card h2 {
   margin: 0;
   font-size: 1.6em;
-  color: #007acc; /* Matches header blue */
+  color: #7b1fa2; /* Dark purple */
 }
 
 .job-card p {
@@ -108,30 +118,39 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #007acc; /* Vibrant Blue for the thumb */
+  background: #7b1fa2; /* Dark purple for the thumb */
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #005999; /* Darker blue on hover */
+  background: #5e35b1; /* Darker purple on hover */
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  body {
-    font-size: 14px;
+  .App-header {
+    min-height: 50vh; /* Adjust header height for smaller screens */
   }
 
   .job-card {
-    margin: 8px 0;
+    flex: 1 1 calc(45% - 20px); /* Two cards per row on medium screens */
   }
 
-  .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .job-listing {
+    margin: 10px; /* Less margin for smaller screens */
   }
-  .job-list-item {
-    flex-direction: column;
+}
+
+@media (max-width: 480px) {
+  .job-card {
+    flex: 1 1 100%; /* One card per row on small screens */
+  }
+
+  .App-header {
+    min-height: 40vh; /* Further adjust header height */
+  }
+
+  body {
+    font-size: 12px; /* Smaller font size for small devices */
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import bnyMellonLogo from '../../assets/bnymellon.png'; 
 import goldmanSachsLogo from '../../assets/goldmansachs.png';  
 import ibmLogo from '../../assets/ibm.png';
@@ -16,13 +16,18 @@ import learnImage from '../../assets/learn.png';
 import networkImage from '../../assets/network.png'; 
 import interviewImage from '../../assets/interview.png'; 
 
-// Redesigned Section Styling
+//Animation for Title
+const fadeIn = keyframes`
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+`;
+
 const FeaturesSection = styled.div`
   display: flex;
   justify-content: space-around;
   margin-top: 50px;
   padding: 40px;
-  background: linear-gradient(135deg, #f3e5f5, #e1f5fe); /* Subtle gradient */
+  background: linear-gradient(135deg, #e1bee7, #d1c4e9); /* Light Purple Gradient */
   border-radius: 20px;
 
   .feature-card {
@@ -51,45 +56,13 @@ const FeaturesSection = styled.div`
 
     h3 {
       font-size: 1.4rem;
-      color: #5e35b1; /* Purple */
+      color: #6a1b9a; /* Dark Purple */
       margin-bottom: 15px;
     }
 
     p {
       font-size: 1rem;
       color: #616161; /* Grey */
-    }
-  }
-`;
-
-const SkillsSection = styled.div`
-  text-align: center;
-  margin: 4rem 0;
-  padding: 30px;
-  background-color: #f1f8e9; /* Soft green */
-  border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-
-  h2 {
-    font-size: 2.8rem;
-    color: #2e7d32; /* Green */
-    margin-bottom: 2rem;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    font-size: 1.2rem;
-    color: #424242;
-
-    li {
-      margin-bottom: 1rem;
-      transition: transform 0.3s ease, color 0.3s ease;
-
-      &:hover {
-        transform: scale(1.05);
-        color: #388e3c;
-      }
     }
   }
 `;
@@ -103,13 +76,13 @@ const CompaniesSection = styled.div`
   h2 {
     margin-bottom: 2rem;
     font-size: 2.8rem;
-    color: #455a64; /* Blue-grey */
+    color: #4a148c; /* Dark Purple */
   }
 `;
 
 const CompanyLogo = styled.img`
-  width: 230px;
-  height: 80px;
+  width: 230px; /* Equal width */
+  height: 80px; /* Equal height */
   display: block;
   object-fit: contain;
   margin: 0 auto;
@@ -127,7 +100,7 @@ const HomeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  background: linear-gradient(135deg, #f1f8e9, #fff8e1); /* Green to Yellow gradient */
+  background: linear-gradient(135deg, #e1bee7, #ffffff); /* Light Purple to White */
   min-height: 100vh;
   color: #263238; /* Blue-grey */
 `;
@@ -138,6 +111,11 @@ const Title = styled.h1`
   color: #8e24aa; /* Purple */
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  animation: ${fadeIn} 1s ease forwards; /* Added animation */
+  
+  span {
+    color: #f57f17; /* Orange color for 'ultimate' */
+  }
 `;
 
 const Description = styled.p`
@@ -147,37 +125,15 @@ const Description = styled.p`
   color: #d32f2f; /* Red */
 `;
 
-const InterviewSection = styled.div`
-  text-align: center;
-  margin: 4rem 0;
-  padding: 30px;
-  background-color: #e3f2fd; /* Light Blue */
-  border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-
-  h2 {
-    font-size: 2.8rem;
-    color: #0288d1; /* Blue */
-    margin-bottom: 1.5rem;
-  }
-
-  img {
-    max-width: 100%;
-    border-radius: 15px;
-    margin: 1.5rem 0;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  }
-`;
-
 const Home = ({ theme }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 800, 
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3500,
+    autoplaySpeed: 2500, 
     responsive: [
       {
         breakpoint: 1024,
@@ -194,20 +150,10 @@ const Home = ({ theme }) => {
     ],
   };
 
-  const topSkills = [
-    "Generative AI Specialists", "Data Entry Specialists", "Video Editors", "Data Analyst", 
-    "Shopify Developer", "Ruby on Rails Developer", "Android Developer", "Bookkeeper", 
-    "Content Writer", "Copywriter", "Data Scientist", "Front-End Developer", "Game Developer", 
-    "Graphic Designer", "iOS Developer", "Java Developer", "JavaScript Developer", "Logo Designer", 
-    "Mobile App Developer", "PHP Developer", "Python Developer", "Resume Writer", "SEO Expert", 
-    "Social Media Manager", "Software Developer", "Software Engineer", "Technical Writer", 
-    "UI Designer", "UX Designer", "Virtual Assistant", "Web Designer", "WordPress Developer"
-  ];
-
   return (
     <HomeWrapper theme={theme}>
-      <Description>Your ULTIMATE go-to portal for job opportunities!</Description>
-      <p>Discover opportunities with industry leaders like Amazon, Genpact, Capgemini, and Cognizant.</p>
+      <Title>Your <span>ultimate</span> go-to portal for job opportunities!</Title>
+      <Description>Discover opportunities with industry leaders like Amazon, Genpact, Capgemini, and Cognizant.</Description>
 
       {/* Features Section */}
       <FeaturesSection>
@@ -233,19 +179,9 @@ const Home = ({ theme }) => {
         </div>
       </FeaturesSection>
 
-      {/* Skills Section */}
-      <SkillsSection>
-        <h2>Top Skills in Demand</h2>
-        <ul>
-          {topSkills.map((skill, index) => (
-            <li key={index}>{skill}</li>
-          ))}
-        </ul>
-      </SkillsSection>
-
       {/* Companies Carousel */}
       <CompaniesSection>
-        <h2>Top Companies</h2>
+        <h2>Top Companies Hiring</h2>
         <Slider {...settings}>
           <CompanyLogo src={bnyMellonLogo} alt="BNY Mellon" />
           <CompanyLogo src={goldmanSachsLogo} alt="Goldman Sachs" />
@@ -257,12 +193,6 @@ const Home = ({ theme }) => {
           <CompanyLogo src={cognizantLogo} alt="Cognizant" />
         </Slider>
       </CompaniesSection>
-
-      {/* Interview Success */}
-      <InterviewSection>
-        <h2>Interview Guidance & Prep</h2>
-        <img src={interviewImage} alt="Interview Prep" />
-      </InterviewSection>
     </HomeWrapper>
   );
 };

@@ -1,61 +1,43 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';  
 import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/Header/Navbar'; 
+import Sidebar from './components/Header/Sidebar';
+import Footer from './components/Footer/Footer';
+import Home from './components/Home/Home';
 import LandingPage from './pages/LandingPage';
-import JobListingsPage from './pages/JobListingsPage'; // Updated import
-import JobDetail from './components/JobDetail';
-import JobForm from './components/JobForm';
-import Home from './components/Home';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Dashboard from './components/Dashboard/Dashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import UserProfilePage from './pages/UserProfilePage';
-import DashboardPage from './pages/DashboardPage';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding-top: 4rem; /* To prevent content from going under the header */
-    padding-bottom: 4rem; /* To prevent content from going under the footer */
-    box-sizing: border-box;
-    background-color: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.text};
-    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
-  }
-`;
-
-const lightTheme = {
-  background: '#ffffff',
-  text: '#333333',
-};
-
-const darkTheme = {
-  background: '#333333',
-  text: '#ffffff',
-};
+import Register from './pages/Register';
+import Profile from './components/Profile/Profile';
+import JobDetail from './components/Jobs/JobDetail';
+import JobForm from './components/Jobs/JobForm';
+import JobListingsPage from './pages/JobListingsPage';
+import theme from './themes/default';
+import './App.css';
 
 const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkMode(prevMode => !prevMode);
+  const toggleSidebar = () => {
+    setSidebarVisible(!isSidebarVisible);
   };
 
   return (
     <Router>
-      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-        <GlobalStyle />
+      <ThemeProvider theme={theme}> 
         <AuthProvider>
-          <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+          <Navbar toggleSidebar={toggleSidebar} />
+          <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
           <Main />
         </AuthProvider>
       </ThemeProvider>
     </Router>
   );
 };
-
+  
 const Main = () => {
   const location = useLocation();
 
@@ -64,13 +46,14 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<Home />} />  
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="/jobs" element={<JobListingsPage />} /> {/* Updated route */}
+        <Route path="/jobs" element={<JobListingsPage />} /> 
         <Route path="/jobs/:id" element={<JobDetail />} />
+        <Route path="/jobs/:id/apply" element={<JobForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/users/profile" element={<UserProfilePage />} />
-        <Route path="/create-job" element={<JobForm />} /> 
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       {location.pathname === '/' && <Footer />}
     </>

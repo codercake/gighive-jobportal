@@ -1,5 +1,5 @@
 import React from 'react';
-import UserProfile from '../components/Profile/UserProfile';
+import UserProfile from '../components/Profile/Profile';
 import styled from 'styled-components';
 
 const Container = styled.div`
