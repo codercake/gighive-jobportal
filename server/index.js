@@ -1,52 +1,50 @@
 import express from 'express';
-import axios from 'axios';
-import jwt from 'jsonwebtoken';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import authRoutes from './routes/auth.route.js';
+import jobRoutes from './routes/jobRoutes.js';
+import userRoutes from './routes/user.routes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import { authenticateJWT } from './middlewares/authMiddleware.js';
+import setupSocket from './utils/socket.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 
-const router = express.Router();
-const { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET } = process.env;
+dotenv.config();
 
-router.get('/linkedin', (req, res) => {
-  const redirectUri = `http://${process.env.HOST || 'localhost'}:${process.env.PORT}/auth/linkedin/callback`;
-  const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${redirectUri}&scope=r_liteprofile%20r_emailaddress`;
-  res.redirect(authUrl);
+const app = express(); 
+
+app.use(cors({
+    origin: 'http://localhost:3000', 
+}));
+app.use(express.json());
+
+console.log('Database URI:', process.env.RESTREVIEWS_DB_URI);
+console.log('Server running on port:', process.env.PORT || 5000);
+console.log('JWT Secret:', process.env.JWT_SECRET);
+
+// MongoDB Connection
+mongoose.connect(process.env.RESTREVIEWS_DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+})
+.then(() => console.log('MongoDB Connected'))
+.catch((error) => {
+    console.error('Failed to connect to MongoDB', error);
+    process.exit(1);
 });
 
-router.get('/linkedin/callback', async (req, res) => {
-  const { code } = req.query;
-  const redirectUri = `http://${process.env.HOST || 'localhost'}:${process.env.PORT}/auth/linkedin/callback`;
+app.use('/auth', authRoutes);
+app.use('/jobs', jobRoutes);
+app.use('/users', userRoutes); 
+app.use('/notifications', authenticateJWT, notificationRoutes); 
+app.use('/applications', authenticateJWT, applicationRoutes);
 
-  try {
-    const tokenResponse = await axios.post('https://www.linkedin.com/oauth/v2/accessToken', null, {
-      params: {
-        grant_type: 'authorization_code',
-        code,
-        redirect_uri: redirectUri,
-        client_id: LINKEDIN_CLIENT_ID,
-        client_secret: LINKEDIN_CLIENT_SECRET,
-      },
-    });
+app.get('/', (req, res) => res.send('Welcome to the Job Listing Portal!'));
 
-    const { access_token } = tokenResponse.data;
-    
-    const userResponse = await axios.get('https://api.linkedin.com/v2/me', {
-      headers: { Authorization: `Bearer ${access_token}` },
-    });
-
-    const userEmailResponse = await axios.get('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', {
-      headers: { Authorization: `Bearer ${access_token}` },
-    });
-
-    const user = userResponse.data;
-    const email = userEmailResponse.data.elements[0]['handle~'].emailAddress;
-
-    //Generate a JWT token
-    const token = jwt.sign({ email, name: user.localizedFirstName }, process.env.JWT_SECRET);
-
-    res.redirect(`http://localhost:3000/dashboard?token=${token}`);
-  } catch (error) {
-    console.error('Error during LinkedIn authentication:', error);
-    res.status(500).send('Authentication failed');
-  }
+const server = app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running at port ${process.env.PORT || 5000}`);
 });
 
-export default router;
+setupSocket(server);
