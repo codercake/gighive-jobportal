@@ -2,26 +2,24 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import http from 'http'; // Import http module
+import { Server } from 'socket.io'; // Import Server from socket.io
 import authRoutes from './routes/auth.route.js';
 import jobRoutes from './routes/jobRoutes.js';
 import userRoutes from './routes/user.routes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import { authenticateJWT } from './middlewares/authMiddleware.js';
-import setupSocket from './utils/socket.js';
-import applicationRoutes from './routes/applicationRoutes.js';
+import setupSocket from './utils/socket.js';  
 
 dotenv.config();
 
-const app = express(); 
+const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3000',
 }));
 app.use(express.json());
-
-console.log('Database URI:', process.env.RESTREVIEWS_DB_URI);
-console.log('Server running on port:', process.env.PORT || 5000);
-console.log('JWT Secret:', process.env.JWT_SECRET);
 
 // MongoDB Connection
 mongoose.connect(process.env.RESTREVIEWS_DB_URI, {
@@ -37,14 +35,26 @@ mongoose.connect(process.env.RESTREVIEWS_DB_URI, {
 
 app.use('/auth', authRoutes);
 app.use('/jobs', jobRoutes);
-app.use('/users', userRoutes); 
-app.use('/notifications', authenticateJWT, notificationRoutes); 
+app.use('/users', userRoutes);
+app.use('/notifications', authenticateJWT, notificationRoutes);
 app.use('/applications', authenticateJWT, applicationRoutes);
 
 app.get('/', (req, res) => res.send('Welcome to the Job Listing Portal!'));
 
-const server = app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is running at port ${process.env.PORT || 5000}`);
+// Create the HTTP server
+const server = http.createServer(app);
+
+// Create a new Socket.io instance
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:3000', 
+    }
 });
 
-setupSocket(server);
+// Setup socket connections
+setupSocket(io);
+
+// Start the server
+server.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running at port ${process.env.PORT || 5000}`);
+});

@@ -1,4 +1,5 @@
-version: "3"
+version: "3.8"
+
 services:
   mongodb:
     image: "mongo"
@@ -21,12 +22,13 @@ services:
       - RESTREVIEWS_NS=${RESTREVIEWS_NS}
       - PORT=5000
     volumes:
-      - ./server:/index
-      - ./server:/node_modules
+      - ./server:/app
     depends_on:
       - mongodb
     env_file:
-      - ./server/.env 
+      - ./server/.env
+
+    command: ["node", "index.js"] 
 
   client:
     build: ./client
@@ -41,4 +43,4 @@ services:
     depends_on:
       - server
     env_file:
-      - ./client/.env 
+      - ./client/.env
