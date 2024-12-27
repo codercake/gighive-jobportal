@@ -7,7 +7,7 @@ import Sidebar from './components/Header/Sidebar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
 import LandingPage from './pages/LandingPage';
-import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './components/Application/Dashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Register from './pages/Register';
