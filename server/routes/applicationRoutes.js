@@ -1,20 +1,35 @@
 import express from 'express';
-import { authenticateJWT } from '../middlewares/authMiddleware.js';
-import ApplicationsController from '../controllers/application.controller.js';
-
+import Application from '../model/applicationSchema.js';  
 const router = express.Router();
 
-// Route for submitting a job application
-// This will handle application submissions
-// Expected to handle form submission with file upload (Resume) and other data
-router.post('/', authenticateJWT, ApplicationsController.apiCreateApplication);
+// POST a new job application
+router.post('/', async (req, res) => {
+    const { jobId, name, email, resume } = req.body;
 
-// Route for getting applications for a specific job
-// Returns a list of applications filtered by a job ID
-router.get('/job/:jobId', ApplicationsController.apiGetApplicationsByJob);
+    const newApplication = new Application({
+        jobId,
+        name,
+        email,
+        resume,
+    });
 
-// Route for getting applications related to the currently authenticated user
-// This uses the JWT token to determine the user and their application records
-router.get('/', authenticateJWT, ApplicationsController.apiGetUserApplications);
+    try {
+        const savedApplication = await newApplication.save();
+        console.log('New Application Data:', savedApplication); 
+        res.status(201).json(savedApplication);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// GET all applications for a specific job
+router.get('/job/:jobId', async (req, res) => {
+    try {
+        const applications = await Application.find({ jobId: req.params.jobId });
+        res.json(applications);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 export default router;

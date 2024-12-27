@@ -1,10 +1,8 @@
 import express from 'express';
 import { authenticateJWT } from '../middlewares/authMiddleware.js'; 
-import { getProfile } from '../controllers/user.controller.js'; 
 import User from '../model/userSchema.js'; 
 const router = express.Router();
 
-router.get('/profile', authenticateJWT, getProfile);
 
 router.get('/applications', authenticateJWT, async (req, res) => {
     try {
