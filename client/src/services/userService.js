@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + '/users';
+// Base URL for user-related API endpoints
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/users';
 
+// Helper function to get authentication token
 const getAuthToken = () => {
   return localStorage.getItem('token');  // Fetch the token from localStorage
 };
 
+// Fetch user profile from the API
 export const getUserProfile = async () => {
   try {
     const response = await axios.get(`${API_URL}/profile`, {
@@ -18,10 +21,10 @@ export const getUserProfile = async () => {
   }
 };
 
-// Get applications of the logged-in user
+// Fetch applications of the logged-in user
 export const getUserApplications = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/applications', {
+    const response = await axios.get(`${API_URL}/applications`, {
       headers: { Authorization: `Bearer ${getAuthToken()}` }  
     });
     return response.data;
@@ -29,4 +32,9 @@ export const getUserApplications = async () => {
     console.error("Error fetching user applications:", error);
     throw error;
   }
+};
+
+export default {
+  getUserProfile,
+  getUserApplications
 };

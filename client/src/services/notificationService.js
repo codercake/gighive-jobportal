@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + '/notifications';
+// Base URL for notifications-related API endpoints
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/notifications';
 
+// Helper function to handle error response for Axios calls
 const handleAxiosError = (error) => {
   if (error.response) {
     console.error('Error response:', error.response.data);
@@ -15,6 +17,7 @@ const handleAxiosError = (error) => {
   return Promise.reject(error.response?.data || 'An error occurred');
 };
 
+// Get notifications from the server
 const getNotifications = async () => {
   try {
     const response = await axios.get(API_URL);
@@ -24,6 +27,7 @@ const getNotifications = async () => {
   }
 };
 
+// Mark notification as read
 const markAsRead = async (id) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, { read: true });
@@ -35,5 +39,5 @@ const markAsRead = async (id) => {
 
 export default {
   getNotifications,
-  markAsRead,
+  markAsRead
 };
