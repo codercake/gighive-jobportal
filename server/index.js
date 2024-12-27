@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import http from 'http'; // Import http module
-import { Server } from 'socket.io'; // Import Server from socket.io
+import http from 'http'; 
+import { Server } from 'socket.io'; 
 import authRoutes from './routes/auth.route.js';
 import jobRoutes from './routes/jobRoutes.js';
 import userRoutes from './routes/user.routes.js';
@@ -41,20 +41,19 @@ app.use('/applications', authenticateJWT, applicationRoutes);
 
 app.get('/', (req, res) => res.send('Welcome to the Job Listing Portal!'));
 
-// Create the HTTP server
 const server = http.createServer(app);
 
-// Create a new Socket.io instance
 const io = new Server(server, {
     cors: {
         origin: 'http://localhost:3000', 
     }
 });
 
-// Setup socket connections
+//Setup socket connections
 setupSocket(io);
 
-// Start the server
-server.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is running at port ${process.env.PORT || 5000}`);
+//Start the server 
+const PORT = process.env.PORT || 5000; 
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

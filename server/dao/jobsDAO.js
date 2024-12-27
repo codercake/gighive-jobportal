@@ -63,7 +63,6 @@ export default class JobsDAO {
         }
     }
 
-    // Improved error handling in getRemote
     static async getRemote() {
         try {
             return await jobs.distinct("remote");
