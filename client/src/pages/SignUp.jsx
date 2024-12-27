@@ -88,11 +88,14 @@ const imageContainerStyle = {
 };
 
 const imageStyle = {
-  width: '300px',
-  height: '300px',
-  borderRadius: '50%',
+  maxWidth: '100%',
+  maxHeight: '400px', 
+  width: 'auto',
+  height: 'auto',
+  borderRadius: '20px',
   objectFit: 'cover',
 };
+
 
 const formContainerStyle = {
   flex: 1,

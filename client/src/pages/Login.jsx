@@ -231,10 +231,13 @@ const imageContainerStyle = {
 };
 
 const imageStyle = {
-  width: '70%',
+  maxWidth: '100%',
+  maxHeight: '400px', 
+  width: 'auto',
   height: 'auto',
-  borderRadius: '50%',
+  borderRadius: '20px',
   objectFit: 'cover',
 };
+
 
 export default Login;

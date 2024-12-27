@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_URL = `${process.env.REACT_APP_API_URL}/jobs`; 
+const API_URL = process.env.REACT_APP_API_URL + '/jobs';
 
-const getAllJobs = async () => {
+export const getAllJobs = async (filters) => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error fetching jobs:', error);
@@ -12,7 +12,7 @@ const getAllJobs = async () => {
   }
 };
 
-const getJobById = async (id) => {
+export const getJobById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
@@ -22,7 +22,13 @@ const getJobById = async (id) => {
   }
 };
 
-export default {
-  getAllJobs,
-  getJobById,
+// Function to apply for a job (POST application data to API)
+export const applyForJob = async (applicationData) => {
+  try {
+    const response = await axios.post(`${API_URL}/apply`, applicationData);
+    return response.data;
+  } catch (error) {
+    console.error('Error applying for job:', error);
+    throw error;
+  }
 };

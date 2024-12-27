@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import jobService from '../../services/jobService';
+import { getAllJobs } from '../../services/jobService';  
 import JobListItem from './JobListItem';
 import styled from 'styled-components';
 import JobFilter from './JobFilter';
@@ -35,7 +35,7 @@ const JobList = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobData = await jobService.getAllJobs(filters); 
+      const jobData = await getAllJobs(filters);  
       setJobs(jobData);
     };
     fetchJobs();
@@ -44,7 +44,7 @@ const JobList = () => {
   return (
     <JobListContainer>
       <Banner>Find your dream job now!</Banner>
-      <JobFilter onFilter={setFilters} /> 
+      <JobFilter onFilter={setFilters} />
       {jobs.length === 0 ? (
         <p>No jobs found.</p>
       ) : (

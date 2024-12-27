@@ -9,7 +9,7 @@ router.get('/profile', authenticateJWT, getProfile);
 router.get('/applications', authenticateJWT, async (req, res) => {
     try {
         const userId = req.user.id; 
-        const user = await User.findById(userId).populate('applications'); //Populate 'applications' field
+        const user = await User.findById(userId).populate('applications');
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

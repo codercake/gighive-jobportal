@@ -21,4 +21,14 @@ export default class ApplicationsController {
             res.status(500).json({ error: error.message });
         }
     }
+    static async apiGetUserApplications(req, res) {
+        const userId = req.user.id;  
+
+        try {
+            const userApplications = await Application.find({ userId });  
+            res.status(200).json(userApplications);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to fetch applications' });
+        }
+    }
 }
