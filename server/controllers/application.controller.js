@@ -1,34 +1,52 @@
-import Application from '../model/applicationSchema.js';
+import Application from '../model/applicationSchema.js'; 
 
-export default class ApplicationsController {
-    static async apiCreateApplication(req, res) {
-        try {
-            const { jobId, name, email, resume } = req.body;
-            const newApplication = new Application({ jobId, name, email, resume });
+export const apiCreateApplication = async (req, res) => {
+  const { jobId, qualification, resume } = req.body;  
+  const userId = req.user.id;  
 
-            const savedApplication = await newApplication.save();
-            res.status(201).json(savedApplication);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
+  // Validate input
+  if (!jobId || !qualification || !resume) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
 
-    static async apiGetApplicationsByJob(req, res) {
-        try {
-            const applications = await Application.find({ jobId: req.params.jobId });
-            res.json(applications);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-    static async apiGetUserApplications(req, res) {
-        const userId = req.user.id;  
+  try {
+    // Create new application record in database
+    const newApplication = new Application({
+      userId,
+      jobId,
+      qualification,
+      resume,
+      status: 'Pending',
+    });
 
-        try {
-            const userApplications = await Application.find({ userId });  
-            res.status(200).json(userApplications);
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to fetch applications' });
-        }
-    }
-}
+    // Save the application to the database
+    await newApplication.save();
+
+    return res.status(201).json({ message: 'Application submitted successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to submit application. Please try again.' });
+  }
+};
+
+export const apiGetApplicationsByJob = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const applications = await Application.find({ jobId }).populate('userId');
+    return res.json(applications);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to get applications for this job.' });
+  }
+};
+
+export const apiGetUserApplications = async (req, res) => {
+  try {
+    const userId = req.user.id; 
+    const applications = await Application.find({ userId }).populate('jobId');
+    return res.json(applications);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to get your applications.' });
+  }
+};
