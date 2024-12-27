@@ -1,35 +1,33 @@
 import axios from 'axios';
 
-// Base URL for user-related API endpoints
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/users';
+// Define base URL for user API endpoints
+const BASE_URL = `${process.env.REACT_APP_API_URL}/users`;
 
-// Helper function to get authentication token
-const getAuthToken = () => {
-  return localStorage.getItem('token');  // Fetch the token from localStorage
-};
+// Helper to get the token
+const getAuthToken = () => localStorage.getItem('token');
 
-// Fetch user profile from the API
+// Fetch user profile
 export const getUserProfile = async () => {
   try {
-    const response = await axios.get(`${API_URL}/profile`, {
+    const response = await axios.get(`${BASE_URL}/profile`, {
       headers: { Authorization: `Bearer ${getAuthToken()}` }
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error('Error fetching user profile:', error);
     throw error;
   }
 };
 
-// Fetch applications of the logged-in user
+// Fetch applications
 export const getUserApplications = async () => {
   try {
-    const response = await axios.get(`${API_URL}/applications`, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }  
+    const response = await axios.get(`${BASE_URL}/applications`, {
+      headers: { Authorization: `Bearer ${getAuthToken()}` }
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching user applications:", error);
+    console.error('Error fetching user applications:', error);
     throw error;
   }
 };

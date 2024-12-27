@@ -16,9 +16,13 @@ dotenv.config();
 
 const app = express();
 
+// CORS: Dynamically use the CLIENT_URL from the .env file or fallback to a default
+const clientURL = process.env.CLIENT_URL || 'http://localhost:3000';
+
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: clientURL,  // Allow requests from the frontend client URL (or localhost in development)
 }));
+
 app.use(express.json());
 
 // MongoDB Connection
@@ -45,14 +49,14 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000', 
+        origin: clientURL,  // Allow socket.io connections from the frontend client URL (or localhost in dev)
     }
 });
 
-//Setup socket connections
+// Setup socket connections
 setupSocket(io);
 
-//Start the server 
+// Start the server 
 const PORT = process.env.PORT || 5000; 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

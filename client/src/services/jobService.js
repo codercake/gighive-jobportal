@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-// Load the API base URL from environment variable
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+// Define base URL for jobs API
+const BASE_URL = `${process.env.REACT_APP_API_URL}/jobs`;
 
-// Function to fetch all jobs with filters
+// Fetch all jobs with filters
 export const getAllJobs = async (filters) => {
   try {
-    const response = await axios.get(`${API_URL}/jobs`, { params: filters });
+    const response = await axios.get(BASE_URL, { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error fetching jobs:', error);
@@ -14,10 +14,10 @@ export const getAllJobs = async (filters) => {
   }
 };
 
-// Function to fetch job by ID
+// Fetch a specific job by ID
 export const getJobById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/jobs/${id}`);
+    const response = await axios.get(`${BASE_URL}/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching job ${id}:`, error);
@@ -25,10 +25,10 @@ export const getJobById = async (id) => {
   }
 };
 
-// Function to apply for a job (POST application data to API)
+// Apply for a job
 export const applyForJob = async (applicationData) => {
   try {
-    const response = await axios.post(`${API_URL}/jobs/apply`, applicationData);
+    const response = await axios.post(`${BASE_URL}/apply`, applicationData);
     return response.data;
   } catch (error) {
     console.error('Error applying for job:', error);
