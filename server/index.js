@@ -16,11 +16,12 @@ dotenv.config();
 
 const app = express();
 
-// CORS: Dynamically use the CLIENT_URL from the .env file or fallback to a default
 const clientURL = process.env.CLIENT_URL || 'http://localhost:3000';
 
 app.use(cors({
-    origin: clientURL,  // Allow requests from the frontend client URL (or localhost in development)
+    origin: clientURL, 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, 
 }));
 
 app.use(express.json());
@@ -57,7 +58,7 @@ const io = new Server(server, {
 setupSocket(io);
 
 // Start the server 
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5001; 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

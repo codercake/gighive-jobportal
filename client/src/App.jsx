@@ -18,7 +18,6 @@ import JobListingsPage from './pages/JobListingsPage';
 import theme from './themes/default';
 import './App.css';
 
-// This is where you'd use REACT_APP_API_URL for API calls, if needed
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 const App = () => {
@@ -34,7 +33,7 @@ const App = () => {
         <AuthProvider>
           <Navbar toggleSidebar={toggleSidebar} />
           <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-          <Main apiUrl={apiUrl} /> {/* Pass API URL as prop if needed */}
+          <Main apiUrl={apiUrl} /> 
         </AuthProvider>
       </ThemeProvider>
     </Router>
@@ -44,16 +43,15 @@ const App = () => {
 const Main = ({ apiUrl }) => {
   const location = useLocation();
 
-  // Example API call using the passed apiUrl (This is just an example for demonstration)
   const fetchJobListings = async () => {
-    const response = await fetch(`${apiUrl}/jobs`);
+    const response = await fetch(`${apiUrl}/path`);
     const data = await response.json();
     console.log(data);
   };
 
   React.useEffect(() => {
     fetchJobListings();
-  }, [apiUrl]); // Make sure apiUrl is only used once the component mounts
+  }, [apiUrl]); 
   
   return (
     <>
