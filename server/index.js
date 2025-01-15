@@ -11,6 +11,7 @@ import applicationRoutes from './routes/applicationRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import { authenticateJWT } from './middlewares/authMiddleware.js';
 import setupSocket from './utils/socket.js';  
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -24,7 +25,8 @@ app.use(cors({
     credentials: true, 
 }));
 
-app.use(express.json());
+app.use(express.json()); //express-app
+app.use(cookieParser()); //dependency for cookieParser
 
 // MongoDB Connection
 mongoose.connect(process.env.RESTREVIEWS_DB_URI, {
