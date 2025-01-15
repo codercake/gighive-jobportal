@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from '../components/ Application/Dashboard.jsx';
+import Notification from '../components/Notifications/Notification.jsx';
 import styled from 'styled-components';
 
 const Title = styled.h1`
@@ -8,13 +8,13 @@ const Title = styled.h1`
   margin-bottom: 2rem;
 `;
 
-const DashboardPage = () => {
+const NotificationPage = () => {
   return (
     <div>
-      <Title>Dashboard</Title>
-      <Dashboard />
+      <Title>Notifications</Title>
+      <Notification />
     </div>
   );
 };
 
-export default DashboardPage;
+export default NotificationPage;

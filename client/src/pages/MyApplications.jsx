@@ -6,7 +6,7 @@ const MyApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const token = localStorage.getItem('token'); // Assuming you store JWT in localStorage
+        const token = localStorage.getItem('token'); 
         const response = await fetch('http://localhost:5000/applications/my-applications', {
           method: 'GET',
           headers: {

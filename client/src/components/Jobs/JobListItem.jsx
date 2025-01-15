@@ -53,8 +53,8 @@ const JobLinkWrapper = styled.div`
 const JobLink = styled(Link)`
   display: inline-block;
   font-size: 1rem;
-  color: white;
-  background-color: #007bff;
+  color: purple;
+  background-color: white;
   padding: 10px 20px;
   border-radius: 25px;
   text-decoration: none;
@@ -73,7 +73,7 @@ const JobListItem = ({ job }) => {
       <JobLocation>📍 {job.location}</JobLocation>
       <JobSalary>💼 Salary: {job.salary}</JobSalary>
       <JobLinkWrapper>
-        <JobLink to={`/jobs/${job._id}`}>View Details</JobLink>
+        <JobLink to={`/jobs/${job._id}`}>Explore Details</JobLink>
       </JobLinkWrapper>
     </JobCard>
   );

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ThemeProvider } from 'styled-components';  
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Header/Navbar'; 
-import Sidebar from './components/Header/Sidebar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
 import LandingPage from './pages/LandingPage';
@@ -15,6 +14,7 @@ import Profile from './components/Profile/Profile';
 import JobDetail from './components/Jobs/JobDetail';
 import JobForm from './components/Jobs/JobForm';
 import JobListingsPage from './pages/JobListingsPage';
+import NotificationPage from './pages/NotificationPage';
 import theme from './themes/default';
 import './App.css';
 
@@ -31,9 +31,13 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}> 
         <AuthProvider>
-          <Navbar toggleSidebar={toggleSidebar} />
-          <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-          <Main apiUrl={apiUrl} /> 
+          <div className="flex flex-col min-h-screen relative">
+            <Navbar toggleSidebar={toggleSidebar} className="fixed top-0 w-full z-50" />
+            <NotificationPage />
+            <main className="flex-grow pt-16">
+              <Main apiUrl={apiUrl} />
+            </main>
+          </div>
         </AuthProvider>
       </ThemeProvider>
     </Router>
@@ -55,19 +59,24 @@ const Main = ({ apiUrl }) => {
   
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />  
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/jobs" element={<JobListingsPage />} /> 
-        <Route path="/jobs/:id" element={<JobDetail />} />
-        <Route path="/jobs/:id/apply" element={<JobForm />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-      {location.pathname === '/' && <Footer />}
+      <div className="relative z-0">
+        <Routes>
+          <Route path="/" element={<Home />} />  
+          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/jobs" element={<JobListingsPage />} /> 
+          <Route path="/jobs/:id" element={<JobDetail />} />
+          <Route path="/jobs/:id/apply" element={<JobForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/notifications" element={<NotificationPage />} />
+        </Routes>
+      </div>
+      {location.pathname === '/' && (
+        <Footer className="relative z-10" />
+      )}
     </>
   );
 };

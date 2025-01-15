@@ -1,58 +1,84 @@
 import React, { useEffect, useState } from 'react';
-import { getAllJobs } from '../../services/jobService';  
+import { motion, AnimatePresence } from 'framer-motion';
+import { getAllJobs } from '../../services/jobService';
 import JobListItem from './JobListItem';
-import styled from 'styled-components';
 import JobFilter from './JobFilter';
-
-const JobListContainer = styled.div`
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-`;
-
-const Banner = styled.div`
-  text-align: center;
-  margin: 20px 0;
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.primary};
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-`;
+import { toast } from 'react-toastify';
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
-  const [filters, setFilters] = useState({ jobType: '', location: '', salaryRange: '' });
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    jobType: '',
+    location: '',
+    salaryRange: '',
+    searchQuery: ''
+  });
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobData = await getAllJobs(filters);  
-      setJobs(jobData);
+      try {
+        setLoading(true);
+        const jobData = await getAllJobs(filters);
+        setJobs(jobData);
+      } catch (error) {
+        toast.error('Failed to fetch jobs');
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchJobs();
+
+    const debounceTimer = setTimeout(fetchJobs, 300);
+    return () => clearTimeout(debounceTimer);
   }, [filters]);
 
+  const handleFilterChange = (newFilters) => {
+    setFilters(prev => ({ ...prev, ...newFilters }));
+  };
+
   return (
-    <JobListContainer>
-      <Banner>Find your dream job now!</Banner>
-      <JobFilter onFilter={setFilters} />
-      {jobs.length === 0 ? (
-        <p>No jobs found.</p>
-      ) : (
-        jobs.map(job => (
-          <JobListItem key={job._id} job={job} />
-        ))
-      )}
-    </JobListContainer>
+    <div className="pt-16 min-h-screen bg-gray-50"> {/* Added padding-top and min-height */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Find Your Dream Job
+          </h1>
+          <p className="text-xl text-gray-600">
+            Discover opportunities that match your skills and aspirations
+          </p>
+        </div>
+
+        <JobFilter onFilter={handleFilterChange} />
+
+        <AnimatePresence>
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            </div>
+          ) : jobs.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-12"
+            >
+              <p className="text-xl text-gray-600">
+                No jobs found matching your criteria
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              layout
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              {jobs.map(job => (
+                <JobListItem key={job._id} job={job} />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 

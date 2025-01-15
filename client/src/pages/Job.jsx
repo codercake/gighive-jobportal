@@ -9,7 +9,7 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const JobPage = () => {
+const Job = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const JobPage = () => {
   );
 };
 
-export default JobPage;
+export default Job;

@@ -1,43 +1,32 @@
 import axios from 'axios';
 
-// Define base URL for jobs API
-const BASE_URL = `${process.env.REACT_APP_API_URL}/jobs`;
+const API_URL = process.env.REACT_APP_API_URL;
 
-// Fetch all jobs with filters
 export const getAllJobs = async (filters) => {
   try {
-    const response = await axios.get(BASE_URL, { params: filters });
+    const response = await axios.get(`${API_URL}/jobs`, { params: filters });
     return response.data;
   } catch (error) {
-    console.error('Error fetching jobs:', error);
-    throw error;
+    throw new Error('Failed to fetch jobs');
   }
 };
 
-// Fetch a specific job by ID
 export const getJobById = async (id) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${id}`);
+    const response = await axios.get(`${API_URL}/jobs/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching job ${id}:`, error);
-    throw error;
+    throw new Error('Failed to fetch job details');
   }
 };
 
-// Apply for a job
-export const applyForJob = async (applicationData) => {
+export const applyForJob = async (formData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/apply`, applicationData);
+    const response = await axios.post(`${API_URL}/jobs/apply`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
     return response.data;
   } catch (error) {
-    console.error('Error applying for job:', error);
-    throw error;
+    throw new Error('Failed to submit application');
   }
-};
-
-export default {
-  getAllJobs,
-  getJobById,
-  applyForJob
 };

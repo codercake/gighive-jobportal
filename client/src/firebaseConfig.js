@@ -1,9 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB94f9VF6vXip-I0hwbMnbIGYOkEqX9a_E",
   authDomain: "gighive-jobportal.firebaseapp.com",
@@ -22,5 +20,4 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Export auth and googleProvider
-export { auth, googleProvider };
+export { auth, googleProvider, analytics };
