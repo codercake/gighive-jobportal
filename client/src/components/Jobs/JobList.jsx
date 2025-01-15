@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getAllJobs } from '../../services/jobService';
+import { jobService } from '../../services/api';
 import JobListItem from './JobListItem';
 import JobFilter from './JobFilter';
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ const JobList = () => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        const jobData = await getAllJobs(filters);
+        const jobData = await jobService.getAllJobs(filters);
         setJobs(jobData);
       } catch (error) {
         toast.error('Failed to fetch jobs');

@@ -1,32 +1,58 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    console.log('API Error:', error.response || error);
+    throw error;
+  }
+);
 
 export const getAllJobs = async (filters) => {
-  try {
-    const response = await axios.get(`${API_URL}/jobs`, { params: filters });
-    return response.data;
-  } catch (error) {
-    throw new Error('Failed to fetch jobs');
-  }
+  const response = await api.get('/jobs', { params: filters });
+  return response.data;
 };
 
 export const getJobById = async (id) => {
-  try {
-    const response = await axios.get(`${API_URL}/jobs/${id}`);
-    return response.data;
-  } catch (error) {
-    throw new Error('Failed to fetch job details');
-  }
+  const response = await api.get(`/jobs/${id}`);
+  return response.data;
 };
 
 export const applyForJob = async (formData) => {
-  try {
-    const response = await axios.post(`${API_URL}/jobs/apply`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error('Failed to submit application');
-  }
+  const response = await api.post('/jobs/apply', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+  return response.data;
 };
+
+export const searchJobs = async (searchTerm) => {
+  const response = await api.get('/jobs/search', { params: { q: searchTerm }});
+  return response.data;
+};
+
+export const getRecentJobs = async () => {
+  const response = await api.get('/jobs/recent');
+  return response.data;
+};
+
+export default api;

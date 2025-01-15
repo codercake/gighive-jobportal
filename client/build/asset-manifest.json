@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.13cdd288.css",
+    "main.js": "/static/js/main.706b4198.js",
+    "static/media/login-image.webp": "/static/media/login-image.ab4f2cac913b76416b08.webp",
+    "static/media/sign-up-image.webp": "/static/media/sign-up-image.2c3b0b4bff5a932f47a1.webp",
+    "static/media/boeing.png": "/static/media/boeing.272c9cabc636ae21c5bc.png",
+    "static/media/amazon.png": "/static/media/amazon.a9d5d3943fc3851d33de.png",
+    "static/media/google-logo.jpg": "/static/media/google-logo.3c2830776244dbf386e1.jpg",
+    "static/media/payment3.png": "/static/media/payment3.d8bc7b15dd73862a06eb.png",
+    "static/media/network.png": "/static/media/network.cdb78d382389d4f20d07.png",
+    "static/media/learn.png": "/static/media/learn.891fa146aad394797d2c.png",
+    "static/media/interview.png": "/static/media/interview.a7764d13609b14af7698.png",
+    "static/media/boost.png": "/static/media/boost.2d769513a4998bf62887.png",
+    "static/media/goldmansachs.png": "/static/media/goldmansachs.4231c48079cd0844ff3f.png",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "index.html": "/index.html",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "main.13cdd288.css.map": "/static/css/main.13cdd288.css.map",
+    "main.706b4198.js.map": "/static/js/main.706b4198.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.13cdd288.css",
+    "static/js/main.706b4198.js"
+  ]
+}

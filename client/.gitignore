@@ -2,8 +2,8 @@
 
 # dependencies
 /node_modules
-/client/.env
-.env
+.env.development
+.env.production
 /.pnp
 .pnp.js
 /firebaseConfig.js
@@ -12,7 +12,7 @@
 /coverage
 
 # production
-/build
+/buil
 
 # misc
 .DS_Store

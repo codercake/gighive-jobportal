@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://gighive-jobportal.vercel.app",
   "dependencies": {
     "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",
