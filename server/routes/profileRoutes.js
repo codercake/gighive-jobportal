@@ -1,9 +1,8 @@
-import express from 'express';
-import { getProfile, updateProfile } from '../controllers/profile.controller.js';
+// import express from 'express';
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get('/', authenticateJWT, getProfile);
-router.put('/', authenticateJWT, updateProfile);
+// router.get('/', authenticateJWT, getProfile);
+// router.put('/', authenticateJWT, updateProfile);
 
-export default router;
+// export default router;

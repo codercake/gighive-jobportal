@@ -3,12 +3,11 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: `${API_URL}/api`,
   withCredentials: true,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Content-Type': 'application/json'
   }
 });
 
@@ -19,14 +18,6 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-api.interceptors.response.use(
-  response => response,
-  error => {
-    console.log('API Error:', error.response || error);
-    throw error;
-  }
-);
 
 export const getAllJobs = async (filters) => {
   const response = await api.get('/jobs', { params: filters });
@@ -55,4 +46,11 @@ export const getRecentJobs = async () => {
   return response.data;
 };
 
-export default api;
+export default {
+  getAllJobs,
+  getJobById,
+  applyForJob,
+  searchJobs,
+  getRecentJobs
+};
+

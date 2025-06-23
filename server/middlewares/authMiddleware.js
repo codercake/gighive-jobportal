@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
-
 export const authenticateJWT = (req, res, next) => {
-    //check token in cookies or Authorization header
     const token = req.cookies?.auth_token || req.headers['authorization'];
 
     if (!token) {
@@ -9,9 +7,10 @@ export const authenticateJWT = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+        const actualToken = token.startsWith('Bearer ') ? token.slice(7) : token;
+        const decoded = jwt.verify(actualToken, process.env.JWT_SECRET); 
         req.user = decoded; 
-        next(); //Proceed to the next middleware or route
+        next();
     } catch (error) {
         console.error('Token validation error:', error.message);
         res.status(401).json({ message: 'Invalid token' });
@@ -26,9 +25,9 @@ export const setAuthCookie = (req, res, next) => {
         });
 
         res.cookie('auth_token', token, {
-            httpOnly: true, //prevent access to the cookie via JavaScript
-            secure: true, //Use HTTPS
-            sameSite: 'Strict', //Prevent cross-site usage
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'Strict',
         });
 
         next();
@@ -37,3 +36,9 @@ export const setAuthCookie = (req, res, next) => {
         res.status(500).send('Failed to set authentication cookie.');
     }
 };
+
+export function authMiddleware(app) {
+    import('cookie-parser').then(module => {
+        app.use(module.default());
+    });
+}
