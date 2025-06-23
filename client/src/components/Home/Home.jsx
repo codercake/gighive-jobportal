@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Slider from 'react-slick';
+import { Link, useNavigate } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled, { keyframes } from 'styled-components';
+import { AuthContext } from '../context/AuthContext';
 
-//company logos
+// company logos
 import bnyMellonLogo from '../../assets/bnymellon.png';
 import goldmanSachsLogo from '../../assets/goldmansachs.png';
 import ibmLogo from '../../assets/ibm.png';
@@ -15,13 +17,13 @@ import genpactLogo from '../../assets/genpact.png';
 import capgeminiLogo from '../../assets/capgemini.png';
 import cognizantLogo from '../../assets/cognizant.png';
 
-//feature images
+// feature images
 import boostImage from '../../assets/boost.png';
 import learnImage from '../../assets/learn.png';
 import networkImage from '../../assets/network.png';
 import interviewImage from '../../assets/interview.png';
 
-//animations
+// animations
 const fadeIn = keyframes`
   0% { opacity: 0; transform: translateY(-20px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -40,12 +42,10 @@ const AnimatedNumber = ({ end, duration = 2000, suffix = '' }) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       setCount(Math.floor(progress * end));
-      
       if (progress < 1) {
         requestAnimationFrame(animate);
       }
     };
-
     if (inView) {
       requestAnimationFrame(animate);
     }
@@ -54,7 +54,7 @@ const AnimatedNumber = ({ end, duration = 2000, suffix = '' }) => {
   return <span ref={ref}>{count}{suffix}</span>;
 };
 
-//styled Components
+// styled Components (same as your original)
 const HomeWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,14 +82,12 @@ const Title = styled.h1`
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
   line-height: 1.2;
-  
   span {
     color: #f57f17;
     background: linear-gradient(120deg, #f57f17, #ff9800);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
   @media (max-width: 768px) {
     font-size: 3rem;
   }
@@ -112,11 +110,9 @@ const StatsSection = styled.div`
   max-width: 1200px;
   margin: 40px 0;
   padding: 20px;
-
   @media (max-width: 968px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @media (max-width: 576px) {
     grid-template-columns: 1fr;
   }
@@ -129,17 +125,14 @@ const StatCard = styled.div`
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-
   &:hover {
     transform: translateY(-5px);
   }
-
   h3 {
     font-size: 2.5rem;
     color: #7c3aed;
     margin-bottom: 0.5rem;
   }
-
   p {
     color: #4b5563;
     font-size: 1.1rem;
@@ -156,15 +149,12 @@ const FeaturesSection = styled.div`
   max-width: 1400px;
   background: linear-gradient(135deg, #e1bee7, #d1c4e9);
   border-radius: 20px;
-
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
-
   .feature-card {
     background: white;
     border-radius: 15px;
@@ -172,24 +162,20 @@ const FeaturesSection = styled.div`
     text-align: center;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
     &:hover {
       transform: translateY(-8px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     }
-
     img {
       width: 80px;
       height: 80px;
       margin-bottom: 20px;
     }
-
     h3 {
       font-size: 1.6rem;
       color: #6a1b9a;
       margin-bottom: 15px;
     }
-
     p {
       font-size: 1.1rem;
       color: #616161;
@@ -209,7 +195,6 @@ const CTAButton = styled.button`
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-top: 2rem;
-
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
@@ -221,7 +206,6 @@ const CompaniesSection = styled.div`
   width: 100%;
   max-width: 1200px;
   text-align: center;
-
   h2 {
     margin-bottom: 2rem;
     font-size: 2.8rem;
@@ -238,13 +222,15 @@ const CompanyLogo = styled.img`
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease-in-out;
-
   &:hover {
     transform: scale(1.12);
   }
 `;
 
 const Home = ({ theme }) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const settings = {
     dots: true,
     infinite: true,
@@ -272,28 +258,45 @@ const Home = ({ theme }) => {
   return (
     <HomeWrapper theme={theme}>
       <HeroSection>
-        <Title>Your <span>ultimate</span> go-to portal for job opportunities! 👩‍💻</Title>
+        <Title>
+          Your <span>ultimate</span> go-to portal for job opportunities! 👩‍💻
+        </Title>
         <Description>
           Connect with industry leaders and unlock your career potential with personalized job matches.
         </Description>
-        <CTAButton>Get Started Today</CTAButton>
+        {/* Conditionally render CTA based on authentication */}
+        {!isAuthenticated ? (
+          <Link to="/login">
+            <CTAButton>Get Started Today</CTAButton>
+          </Link>
+        ) : (
+          <CTAButton onClick={() => navigate('/dashboard')}>Go to Dashboard</CTAButton>
+        )}
       </HeroSection>
 
       <StatsSection>
         <StatCard>
-          <h3><AnimatedNumber end={500} suffix="+" /></h3>
+          <h3>
+            <AnimatedNumber end={500} suffix="+" />
+          </h3>
           <p>Companies Hiring</p>
         </StatCard>
         <StatCard>
-          <h3><AnimatedNumber end={10} suffix="k+" /></h3>
+          <h3>
+            <AnimatedNumber end={10} suffix="k+" />
+          </h3>
           <p>Active Jobs</p>
         </StatCard>
         <StatCard>
-          <h3><AnimatedNumber end={50} suffix="k+" /></h3>
+          <h3>
+            <AnimatedNumber end={50} suffix="k+" />
+          </h3>
           <p>Successful Placements</p>
         </StatCard>
         <StatCard>
-          <h3><AnimatedNumber end={95} suffix="%" /></h3>
+          <h3>
+            <AnimatedNumber end={95} suffix="%" />
+          </h3>
           <p>Success Rate</p>
         </StatCard>
       </StatsSection>
@@ -324,14 +327,30 @@ const Home = ({ theme }) => {
       <CompaniesSection>
         <h2>Top Companies Hiring</h2>
         <Slider {...settings}>
-          <div><CompanyLogo src={bnyMellonLogo} alt="BNY Mellon" /></div>
-          <div><CompanyLogo src={goldmanSachsLogo} alt="Goldman Sachs" /></div>
-          <div><CompanyLogo src={ibmLogo} alt="IBM" /></div>
-          <div><CompanyLogo src={boeingLogo} alt="Boeing" /></div>
-          <div><CompanyLogo src={amazonLogo} alt="Amazon" /></div>
-          <div><CompanyLogo src={genpactLogo} alt="Genpact" /></div>
-          <div><CompanyLogo src={capgeminiLogo} alt="Capgemini" /></div>
-          <div><CompanyLogo src={cognizantLogo} alt="Cognizant" /></div>
+          <div>
+            <CompanyLogo src={bnyMellonLogo} alt="BNY Mellon" />
+          </div>
+          <div>
+            <CompanyLogo src={goldmanSachsLogo} alt="Goldman Sachs" />
+          </div>
+          <div>
+            <CompanyLogo src={ibmLogo} alt="IBM" />
+          </div>
+          <div>
+            <CompanyLogo src={boeingLogo} alt="Boeing" />
+          </div>
+          <div>
+            <CompanyLogo src={amazonLogo} alt="Amazon" />
+          </div>
+          <div>
+            <CompanyLogo src={genpactLogo} alt="Genpact" />
+          </div>
+          <div>
+            <CompanyLogo src={capgeminiLogo} alt="Capgemini" />
+          </div>
+          <div>
+            <CompanyLogo src={cognizantLogo} alt="Cognizant" />
+          </div>
         </Slider>
       </CompaniesSection>
     </HomeWrapper>

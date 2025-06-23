@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';  
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './components/context/AuthContext';
 import Navbar from './components/Header/Navbar'; 
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -9,6 +9,7 @@ import LandingPage from './pages/LandingPage';
 import Dashboard from './components/Application/Dashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Profile from './components/Profile/Profile';
 import JobDetail from './components/Jobs/JobDetail';
@@ -54,6 +55,7 @@ const Main = () => {
           <Route path="/jobs/:id/apply" element={<JobForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />

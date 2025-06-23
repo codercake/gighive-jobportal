@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FiMenu, FiX, FiUser, FiBriefcase, FiGrid, FiBell } from 'react-icons/fi';
+import { FiMenu, FiX, FiUser, FiBriefcase, FiGrid, FiLogOut } from 'react-icons/fi';
+import { AuthContext } from '../context/AuthContext';
 
 const NavContainer = styled.nav`
   background: rgba(255, 255, 255, 0.95);
@@ -104,6 +105,27 @@ const StyledLink = styled(Link)`
   `}
 `;
 
+const LogoutButton = styled(Link)`
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  background: linear-gradient(135deg, #f44336, #e53935);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+  }
+`;
+
 const MobileMenuButton = styled.button`
   display: none;
   background: none;
@@ -181,8 +203,9 @@ const Overlay = styled.div`
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { isAuthenticated } = useContext(AuthContext);
 
-  const toggleSidebar = () => {
+  const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
     if (!isSidebarOpen) {
       document.body.style.overflow = 'hidden';
@@ -206,48 +229,52 @@ const Navbar = () => {
             <NavLink to="/dashboard">
               <FiGrid /> Dashboard
             </NavLink>
-            {/* <NavLink to="/notifications">
-              <FiBell /> Notifications
-            </NavLink> */}
             <NavLink to="/profile">
               <FiUser /> Profile
             </NavLink>
+            {isAuthenticated && (
+              <LogoutButton to="/logout">
+                <FiLogOut /> Logout
+              </LogoutButton>
+            )}
           </NavMenu>
 
           <ActionButtons>
-            <StyledLink to="/login">Sign In</StyledLink>
-            <StyledLink to="/signup" primary>Begin your Journey</StyledLink>
+            {!isAuthenticated && (
+              <>
+                <StyledLink to="/login">Sign In</StyledLink>
+                <StyledLink to="/signup" primary>Begin your Journey</StyledLink>
+              </>
+            )}
           </ActionButtons>
 
-          <MobileMenuButton onClick={toggleSidebar}>
+          <MobileMenuButton onClick={handleToggleSidebar}>
             <FiMenu />
           </MobileMenuButton>
         </NavContent>
       </NavContainer>
 
-      <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
+      <Overlay isOpen={isSidebarOpen} onClick={handleToggleSidebar} />
       
       <Sidebar isOpen={isSidebarOpen}>
-        <CloseButton onClick={toggleSidebar}>
+        <CloseButton onClick={handleToggleSidebar}>
           <FiX />
         </CloseButton>
         <SidebarContent>
-          <NavLink to="/jobs" onClick={toggleSidebar}>
+          <NavLink to="/jobs" onClick={handleToggleSidebar}>
             <FiBriefcase /> Jobs
           </NavLink>
-          <NavLink to="/dashboard" onClick={toggleSidebar}>
+          <NavLink to="/dashboard" onClick={handleToggleSidebar}>
             <FiGrid /> Dashboard
           </NavLink>
-          {/* <NavLink to="/notifications" onClick={toggleSidebar}>
-            <FiBell /> Notifications
-          </NavLink> */}
-          <NavLink to="/profile" onClick={toggleSidebar}>
+          <NavLink to="/profile" onClick={handleToggleSidebar}>
             <FiUser /> Profile
           </NavLink>
-          <StyledLink to="/login" onClick={toggleSidebar}>Sign In</StyledLink>
-          <StyledLink to="/signup" primary onClick={toggleSidebar}>
-            Begin your Journey
-          </StyledLink>
+          {isAuthenticated && (
+            <LogoutButton to="/logout" onClick={handleToggleSidebar}>
+              <FiLogOut /> Logout
+            </LogoutButton>
+          )}
         </SidebarContent>
       </Sidebar>
     </>
