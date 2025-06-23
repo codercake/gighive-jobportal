@@ -45,12 +45,12 @@ GigHive is a job portal designed to connect job seekers with industry leaders, o
    ```
 6. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
-## 📷 Preview
+## Preview
 
 ![image](https://github.com/user-attachments/assets/18a544b8-f877-4568-98fb-47f252b2d38a)
 
 
-## 📝 License
+## License
 This project is licensed under the [MIT License](./LICENSE).
 
 
