@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from '../components/ Application/Dashboard.jsx';
+import Dashboard from '../components/Application/Dashboard.jsx';
 import styled from 'styled-components';
 
 const Title = styled.h1`

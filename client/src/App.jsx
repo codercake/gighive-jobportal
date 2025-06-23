@@ -14,11 +14,8 @@ import Profile from './components/Profile/Profile';
 import JobDetail from './components/Jobs/JobDetail';
 import JobForm from './components/Jobs/JobForm';
 import JobListingsPage from './pages/JobListingsPage';
-import NotificationPage from './pages/NotificationPage';
 import theme from './themes/default';
 import './App.css';
-
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 const App = () => {
   const [isSidebarVisible, setSidebarVisible] = useState(false);
@@ -33,9 +30,8 @@ const App = () => {
         <AuthProvider>
           <div className="flex flex-col min-h-screen relative">
             <Navbar toggleSidebar={toggleSidebar} className="fixed top-0 w-full z-50" />
-            <NotificationPage />
             <main className="flex-grow pt-16">
-              <Main apiUrl={apiUrl} />
+              <Main />
             </main>
           </div>
         </AuthProvider>
@@ -43,20 +39,10 @@ const App = () => {
     </Router>
   );
 };
-  
-const Main = ({ apiUrl }) => {
+
+const Main = () => {
   const location = useLocation();
 
-  const fetchJobListings = async () => {
-    const response = await fetch(`${apiUrl}/path`);
-    const data = await response.json();
-    console.log(data);
-  };
-
-  React.useEffect(() => {
-    fetchJobListings();
-  }, [apiUrl]); 
-  
   return (
     <>
       <div className="relative z-0">
@@ -71,7 +57,6 @@ const Main = ({ apiUrl }) => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/notifications" element={<NotificationPage />} />
         </Routes>
       </div>
       {location.pathname === '/' && (

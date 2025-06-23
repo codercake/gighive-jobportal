@@ -206,9 +206,9 @@ const Navbar = () => {
             <NavLink to="/dashboard">
               <FiGrid /> Dashboard
             </NavLink>
-            <NavLink to="/notifications">
+            {/* <NavLink to="/notifications">
               <FiBell /> Notifications
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/profile">
               <FiUser /> Profile
             </NavLink>
@@ -238,9 +238,9 @@ const Navbar = () => {
           <NavLink to="/dashboard" onClick={toggleSidebar}>
             <FiGrid /> Dashboard
           </NavLink>
-          <NavLink to="/notifications" onClick={toggleSidebar}>
+          {/* <NavLink to="/notifications" onClick={toggleSidebar}>
             <FiBell /> Notifications
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/profile" onClick={toggleSidebar}>
             <FiUser /> Profile
           </NavLink>
